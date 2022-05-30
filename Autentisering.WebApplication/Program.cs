@@ -1,4 +1,5 @@
 using Autentisering.WebApplication.Backend;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,8 @@ builder.Services.AddRefitClient<IWeatherForecastApi>()
         }
     );
 
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
 var app = builder.Build();
 
