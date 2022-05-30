@@ -1,4 +1,5 @@
 using Autentisering.WebApplication.Backend;
+using Autentisering.WebApplication.IdentityAndAccess;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Refit;
 
@@ -18,6 +19,15 @@ builder.Services.AddRefitClient<IWeatherForecastApi>()
             c.BaseAddress = new Uri("https://localhost:7170/");
         }
     );
+
+
+builder.Services.AddRefitClient<IdentityApi>()
+        .ConfigureHttpClient(c =>
+        {
+            c.BaseAddress = new Uri("https://localhost:7134/");
+        }
+    );
+
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
