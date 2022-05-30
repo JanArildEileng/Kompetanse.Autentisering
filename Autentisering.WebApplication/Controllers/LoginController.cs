@@ -44,4 +44,17 @@ public class LoginController : ControllerBase
 
         return Ok($" {userName} successful login");
     }
+
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    [HttpPost("Logout",Name = "Logout")]
+    public async Task<ActionResult> Logout()
+    {
+        var identity = this.HttpContext.User.Identities.First();
+        var name= identity.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).First().Value;
+
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return Ok($" {name} successful Logout");
+    }
+
+
 }
