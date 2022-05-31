@@ -16,15 +16,14 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
-
+builder.Services.AddScoped<IRestrictedDataService, RestrictedDataService>();
 
 
 builder.Services.AddRefitClient<IWeatherForecastApi>()
-        .ConfigureHttpClient(c =>
-        {
-            c.BaseAddress = new Uri("https://localhost:7170/");
-        }
-    );
+        .ConfigureHttpClient(c =>  {c.BaseAddress = new Uri("https://localhost:7170/"); });
+
+builder.Services.AddRefitClient<IRestrictedDataApi>()
+        .ConfigureHttpClient(c =>  {c.BaseAddress = new Uri("https://localhost:7170/"); });
 
 
 builder.Services.AddRefitClient<IdentityApi>()
