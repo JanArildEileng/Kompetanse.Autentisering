@@ -30,7 +30,20 @@ builder.Services.AddRefitClient<IdentityApi>()
 
 
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+builder.Services.AddAuthentication(option=> 
+   {
+       option.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+       option.DefaultChallengeScheme= CookieAuthenticationDefaults.AuthenticationScheme;
+       option.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+   }).     
+    AddCookie(option =>
+    {
+        option.Events.OnRedirectToLogin = context =>
+        {
+            context.Response.StatusCode = 401;
+            return Task.CompletedTask;
+        };
+    });
 
 var app = builder.Build();
 
