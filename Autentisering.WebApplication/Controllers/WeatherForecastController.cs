@@ -1,7 +1,7 @@
 using Autentisering.Shared;
-using Autentisering.WebApplication.Backend;
+using Autentisering.WebApplication.Services;
 using Microsoft.AspNetCore.Mvc;
-using Refit;
+
 
 namespace Autentisering.WebApplication.Controllers;
 
@@ -11,37 +11,22 @@ public class WeatherForecastController : ControllerBase
 {
 
     private readonly ILogger<WeatherForecastController> _logger;
-    private readonly IWeatherForecastApi weatherForecastApi;
+    private readonly IWeatherForecastService weatherForecastService;
 
 
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger, IWeatherForecastApi weatherForecastApi)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, IWeatherForecastService weatherForecastService)
     {
         _logger = logger;
-        this.weatherForecastApi = weatherForecastApi;
+        this.weatherForecastService = weatherForecastService;
     }
 
     [HttpGet(Name = "GetWeatherForecastHttpResponseMessage")]
     public async Task<ActionResult<IEnumerable<WeatherForecast>>> GetWeatherForecastHttpResponseMessage()
     {
-        try
-        {
-            var response = await this.weatherForecastApi.GetWeatherForecastHttpResponseMessage();
-            if (response.IsSuccessStatusCode)
-            {
 
-                var weather = await response.Content.ReadFromJsonAsync<IEnumerable<WeatherForecast>>();
-                return Ok(weather);
-            }
-            return BadRequest(response.ReasonPhrase);
-        }
-        catch (ApiException apiException)
-        {
-            throw;
-        }
-        catch (Exception)
-        {
-            throw;
-        }
+        var weatherForecast = await this.weatherForecastService.GetWeatherForecastHttpResponseMessage();
+        return Ok(weatherForecast);
+       
     }
 }

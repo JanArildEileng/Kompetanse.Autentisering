@@ -1,6 +1,6 @@
 ﻿using Refit;
 
-namespace Autentisering.WebApplication.Backend;
+namespace Autentisering.WebApplication.ExternalApi;
 
 [Headers("Authorization: Bearer")]
 public interface IWeatherForecastApi

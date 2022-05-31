@@ -1,6 +1,6 @@
 ﻿using Refit;
 
-namespace Autentisering.WebApplication.IdentityAndAccess;
+namespace Autentisering.WebApplication.ExternalApi;
 
 public interface IdentityApi
 {

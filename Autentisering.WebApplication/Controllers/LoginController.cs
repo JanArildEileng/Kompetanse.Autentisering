@@ -1,10 +1,8 @@
-using Autentisering.Shared;
-using Autentisering.WebApplication.Backend;
-using Autentisering.WebApplication.IdentityAndAccess;
+
+using Autentisering.WebApplication.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Refit;
 using System.Security.Claims;
 
 namespace Autentisering.WebApplication.Controllers;
@@ -15,36 +13,21 @@ public class LoginController : ControllerBase
 {
 
     private readonly ILogger<LoginController> _logger;
-    private readonly IdentityApi identityApi;
+    public IIdentityService identityService { get; }
 
-    public LoginController(ILogger<LoginController> logger, IdentityApi identityApi)
+    public LoginController(ILogger<LoginController> logger, IIdentityService identityService)
     {
         _logger = logger;
-        this.identityApi = identityApi;
+      
+        this.identityService = identityService;
     }
+
+   
 
     [HttpPost(Name = "Login")]
     public async Task<ActionResult> Login(string userName="TestUSer",string password="Password")
     {
-        var identityName="";
-
-        try
-        {
-            var response = await this.identityApi.GetIdentityHttpResponseMessage(userName, password);
-            if (response.IsSuccessStatusCode)
-            {
-                identityName = await response.Content.ReadAsStringAsync();
-            } else
-                return BadRequest(response.ReasonPhrase);
-        }
-        catch (ApiException apiException)
-        {
-            throw;
-        }
-        catch (Exception)
-        {
-            throw;
-        }
+        var identityName= await identityService.Login(userName, password);
 
 
         var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);

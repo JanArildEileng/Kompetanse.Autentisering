@@ -1,5 +1,6 @@
-using Autentisering.WebApplication.Backend;
-using Autentisering.WebApplication.IdentityAndAccess;
+
+using Autentisering.WebApplication.ExternalApi;
+using Autentisering.WebApplication.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Refit;
 
@@ -11,6 +12,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
+
 
 
 builder.Services.AddRefitClient<IWeatherForecastApi>()
