@@ -1,8 +1,11 @@
 using Autentisering.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Autentisering.BackApi.Controllers
 {
+
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class RestrictedDataController : ControllerBase

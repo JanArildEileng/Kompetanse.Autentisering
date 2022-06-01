@@ -1,4 +1,5 @@
 
+using Autentisering.WebApplication;
 using Autentisering.WebApplication.ExternalApi;
 using Autentisering.WebApplication.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -20,13 +21,20 @@ builder.Services.AddScoped<IRestrictedDataService, RestrictedDataService>();
 
 builder.Services.AddSingleton<TokenValidetorService>();
 
+builder.Services.AddSingleton<AuthentTokenCache>();
 
 
 
 builder.Services.AddRefitClient<IWeatherForecastApi>()
         .ConfigureHttpClient(c =>  {c.BaseAddress = new Uri("https://localhost:7170/"); });
 
-builder.Services.AddRefitClient<IRestrictedDataApi>()
+
+RefitSettings settings = new RefitSettings()
+{
+    AuthorizationHeaderValueGetter = AuthentTokenCache.AuthorizationHeaderValueGetter
+};
+
+builder.Services.AddRefitClient<IRestrictedDataApi>(settings)
         .ConfigureHttpClient(c =>  {c.BaseAddress = new Uri("https://localhost:7170/"); });
 
 

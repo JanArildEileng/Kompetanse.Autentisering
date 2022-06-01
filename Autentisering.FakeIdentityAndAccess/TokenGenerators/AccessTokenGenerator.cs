@@ -22,11 +22,11 @@ public class AccessTokenGenerator
 
     private string BuildJWTToken()
     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["IdJwtToken:SecretKey"]));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["AccessJwtToken:SecretKey"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var issuer = _config["IdJwtToken:Issuer"];
-        var audience = _config["IdJwtToken:Audience"];
-        var jwtValidity = DateTime.Now.AddMinutes(Convert.ToDouble(_config["IdJwtToken:TokenExpiry"]));
+        var issuer = _config["AccessJwtToken:Issuer"];
+        var audience = _config["AccessJwtToken:Audience"];
+        var jwtValidity = DateTime.Now.AddMinutes(Convert.ToDouble(_config["AccessJwtToken:TokenExpiry"]));
 
         var authClaims = new List<Claim> {
             new Claim(ClaimTypes.Name, "Jan"),

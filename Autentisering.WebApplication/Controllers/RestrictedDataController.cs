@@ -33,6 +33,9 @@ public class RestrictedDataController : ControllerBase
 
         _logger.LogInformation("GetRestrictedData authorizationCode={authorizationCode}", authorizationCode);
 
+
+
+
         var accessToken = await identityService.GetAccessToken(authorizationCode);
         
         if ( string.IsNullOrEmpty(accessToken))
@@ -41,6 +44,10 @@ public class RestrictedDataController : ControllerBase
         }
         
         _logger.LogInformation("GetRestrictedData accessToken={accessToken}", accessToken);
+
+        AuthentTokenCache.accessToken = accessToken;
+
+
 
         RestrictedData restrictedData = await this.restrictedDataService.GetRestrictedData();
         return Ok(restrictedData);

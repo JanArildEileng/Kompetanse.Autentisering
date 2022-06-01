@@ -29,7 +29,7 @@ namespace Autentisering.WebApplication.Services
                     var restrictedData = await response.Content.ReadFromJsonAsync<RestrictedData>();
                     return restrictedData;
                 }
-                throw new Exception("WeatherForecast failed " + response.ReasonPhrase);
+                throw new Exception("GetRestrictedData failed " + response.ReasonPhrase);
             }
             catch (ApiException apiException)
             {
