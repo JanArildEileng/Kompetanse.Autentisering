@@ -59,6 +59,8 @@ public class LoginController : ControllerBase
 
         identity.AddClaim(new Claim(ClaimTypes.Name, identityName));
         identity.AddClaim(new Claim(ClaimTypes.Role, "User"));
+        //hmm...
+        identity.AddClaim(new Claim("authorizationCode", authorizationCode));
 
         var principal = new ClaimsPrincipal(identity);
 

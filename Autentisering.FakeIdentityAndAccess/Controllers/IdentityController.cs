@@ -84,14 +84,14 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
         {
             string accessToken = String.Empty;
 
-            string idtoken = String.Empty;
-
             if (codeCache.Cache.TryGetValue(authorizationCode, out AuthorizationCodeContent authorizationCodeContent))
             {
                 //ok...sjekk på client_id?
 
                 //Genererte AccessToken..
                 accessToken = accessTokenGenerator.GetAccessToken();
+            } else
+            {
 
 
             }
