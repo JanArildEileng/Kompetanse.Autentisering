@@ -15,15 +15,12 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
 
         private readonly ILogger<IdentityController> _logger;
 
-        public CodeCache codeCache { get; }
-        public MemoryCacheEntryOptions cacheEntryOptions;
+        public AuthorizationCodeCache authorizationCodeCache { get; }
 
-        public IdentityController(ILogger<IdentityController> logger, CodeCache codeCache)
+        public IdentityController(ILogger<IdentityController> logger, AuthorizationCodeCache authorizationCodeCache)
         {
             _logger = logger;
-            this.codeCache = codeCache;
-            cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(DateTime.Now.AddMinutes(5)); //kan legge til i config? 
+            this.authorizationCodeCache = authorizationCodeCache;
 
         }
 
@@ -52,7 +49,7 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
                     Client_id = client_id
                 };
 
-                codeCache.Cache.Set(authorizationCode, authorizationCodeContent, this.cacheEntryOptions);
+                authorizationCodeCache.Set(authorizationCode, authorizationCodeContent);
             }
                 
             
@@ -65,7 +62,7 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
         {
              string idtoken=String.Empty;
 
-            if (codeCache.Cache.TryGetValue(authorizationCode, out AuthorizationCodeContent authorizationCodeContent))
+            if (authorizationCodeCache.TryGet(authorizationCode, out AuthorizationCodeContent authorizationCodeContent))
             {
                 //ok...sjekk på client_id?
 
@@ -84,7 +81,7 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
         {
             string accessToken = String.Empty;
 
-            if (codeCache.Cache.TryGetValue(authorizationCode, out AuthorizationCodeContent authorizationCodeContent))
+            if (authorizationCodeCache.TryGet(authorizationCode, out AuthorizationCodeContent authorizationCodeContent))
             {
                 //ok...sjekk på client_id?
 
