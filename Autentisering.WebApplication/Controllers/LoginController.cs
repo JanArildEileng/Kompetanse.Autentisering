@@ -51,7 +51,7 @@ public class LoginController : ControllerBase
 
         var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
 
-        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, identityName));
+        identity.AddClaim(new Claim(ClaimTypes.Name, identityName));
         identity.AddClaim(new Claim(ClaimTypes.Role, "User"));
 
         var principal = new ClaimsPrincipal(identity);
@@ -74,7 +74,7 @@ public class LoginController : ControllerBase
     public async Task<ActionResult> Logout()
     {
         var identity = this.HttpContext.User.Identities.First();
-        var name= identity.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).First().Value;
+        var name= identity.Claims.Where(c => c.Type == ClaimTypes.Name).First().Value;
 
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return Ok($" {name} successful Logout");
