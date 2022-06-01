@@ -79,4 +79,105 @@ public class IdentityService : IIdentityService
         return authorizationCode;
 
     }
+
+
+    public async Task<string> GetIdToken(string authorizationCode)
+    {
+        var idToken = String.Empty;
+
+        try
+        {
+            var response = await this.identityApi.GetIdToken(authorizationCode);
+            if (response.IsSuccessStatusCode)
+            {
+                idToken = await response.Content.ReadAsStringAsync();
+            }
+            else
+            {
+                throw new Exception("Identity failed " + response.ReasonPhrase);
+            }
+
+        }
+        catch (ApiException apiException)
+        {
+            logger.LogError(" ApiException {Message} ", apiException.Message);
+
+            throw;
+        }
+        catch (Exception exp)
+        {
+            logger.LogError(" Exception {Message} ", exp.Message);
+            throw;
+        }
+
+        return idToken;
+
+    }
+
+    public async Task<string> GetAccessToken(string authorizationCode)
+    {
+        var accessToken = String.Empty;
+
+        try
+        {
+            var response = await this.identityApi.GetAccessToken(authorizationCode);
+            if (response.IsSuccessStatusCode)
+            {
+                accessToken = await response.Content.ReadAsStringAsync();
+            }
+            else
+            {
+                throw new Exception("Identity failed " + response.ReasonPhrase);
+            }
+
+        }
+        catch (ApiException apiException)
+        {
+            logger.LogError(" ApiException {Message} ", apiException.Message);
+
+            throw;
+        }
+        catch (Exception exp)
+        {
+            logger.LogError(" Exception {Message} ", exp.Message);
+            throw;
+        }
+
+        return accessToken;
+
+    }
+
+    public async Task<string> GetUserinfo(string AccessToken)
+    {
+        var userinfo = String.Empty;
+
+        try
+        {
+            var response = await this.identityApi.GetUserinfo(AccessToken);
+            if (response.IsSuccessStatusCode)
+            {
+                userinfo = await response.Content.ReadAsStringAsync();
+            }
+            else
+            {
+                throw new Exception("Identity failed " + response.ReasonPhrase);
+            }
+
+        }
+        catch (ApiException apiException)
+        {
+            logger.LogError(" ApiException {Message} ", apiException.Message);
+
+            throw;
+        }
+        catch (Exception exp)
+        {
+            logger.LogError(" Exception {Message} ", exp.Message);
+            throw;
+        }
+
+        return userinfo;
+
+    }
+
 }

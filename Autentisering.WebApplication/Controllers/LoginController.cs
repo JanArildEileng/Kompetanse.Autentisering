@@ -3,6 +3,7 @@ using Autentisering.WebApplication.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace Autentisering.WebApplication.Controllers;
@@ -31,12 +32,21 @@ public class LoginController : ControllerBase
 
         if (String.IsNullOrEmpty(authorizationCode))
         {
-            return BadRequest($" {userName} not successful login");
+            return BadRequest($" {userName} not successful login (authorizationCode)");
         }
 
+        var idToken = await identityService.GetIdToken(authorizationCode);
 
-            
-        var identityName = await identityService.Login(userName, password);
+
+        if (String.IsNullOrEmpty(idToken))
+        {
+            return BadRequest($" {userName} not successful login (idToken)");
+        }
+        //legg på validering her..!
+        var handler = new JwtSecurityTokenHandler();
+        var jwtSecurityToken = handler.ReadJwtToken(idToken);
+        var claims = jwtSecurityToken.Claims.ToList();
+        var identityName = claims.Where(e => e.Type == ClaimTypes.Name).Select(e => e.Value).FirstOrDefault();
 
 
         var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
@@ -56,7 +66,7 @@ public class LoginController : ControllerBase
         await HttpContext.SignInAsync( new ClaimsPrincipal(principal), authProperties);
 
 
-        return Ok($" {identityName} successful login");
+        return Ok($" {identityName} successful login:  Idtoken={idToken}");
     }
 
     [Microsoft.AspNetCore.Authorization.Authorize]
