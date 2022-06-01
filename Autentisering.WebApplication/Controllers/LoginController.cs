@@ -26,13 +26,13 @@ public class LoginController : ControllerBase
    
 
     [HttpPost(Name = "Login")]
-    public async Task<ActionResult> Login(string userName="TestUSer",string password= "TestUSer")
+    public async Task<ActionResult> Login([FromServices] TokenValidetorService tokenValidetorService,string userName="TestUSer",string password= "TestUSer")
     {
         string authorizationCode = await identityService.GetAuthorizationCode("1234", userName, password);
 
         if (String.IsNullOrEmpty(authorizationCode))
         {
-            return BadRequest($" {userName} not successful login (authorizationCode)");
+            return BadRequest($" Login {userName} not successful login (authorizationCode)");
         }
 
         var idToken = await identityService.GetIdToken(authorizationCode);
@@ -40,11 +40,17 @@ public class LoginController : ControllerBase
 
         if (String.IsNullOrEmpty(idToken))
         {
-            return BadRequest($" {userName} not successful login (idToken)");
+            return BadRequest($" Login {userName} not successful login (idToken)");
         }
         //legg på validering her..!
-        var handler = new JwtSecurityTokenHandler();
-        var jwtSecurityToken = handler.ReadJwtToken(idToken);
+  
+        JwtSecurityToken jwtSecurityToken = tokenValidetorService.ReadValidateIdToken(idToken);
+
+        if (jwtSecurityToken==null)
+        {
+            return BadRequest($"Login {userName} not successful invalid jwtSecurityToken");
+        }
+
         var claims = jwtSecurityToken.Claims.ToList();
         var identityName = claims.Where(e => e.Type == ClaimTypes.Name).Select(e => e.Value).FirstOrDefault();
 
