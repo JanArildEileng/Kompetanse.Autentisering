@@ -25,9 +25,18 @@ public class LoginController : ControllerBase
    
 
     [HttpPost(Name = "Login")]
-    public async Task<ActionResult> Login(string userName="TestUSer",string password="Password")
+    public async Task<ActionResult> Login(string userName="TestUSer",string password= "TestUSer")
     {
-        var identityName= await identityService.Login(userName, password);
+        string authorizationCode = await identityService.GetAuthorizationCode("1234", userName, password);
+
+        if (String.IsNullOrEmpty(authorizationCode))
+        {
+            return BadRequest($" {userName} not successful login");
+        }
+
+
+            
+        var identityName = await identityService.Login(userName, password);
 
 
         var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);

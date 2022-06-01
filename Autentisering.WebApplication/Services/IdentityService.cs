@@ -45,4 +45,38 @@ public class IdentityService : IIdentityService
         return identityName;
 
     }
+
+
+    public async Task<string> GetAuthorizationCode(string client_id, string userName, string password)
+    {
+        var authorizationCode = String.Empty;
+
+        try
+        {
+            var response = await this.identityApi.GetAuthorizationCode(client_id,userName, password);
+            if (response.IsSuccessStatusCode)
+            {
+                authorizationCode = await response.Content.ReadAsStringAsync();
+            }
+            else
+            {
+                throw new Exception("Identity failed " + response.ReasonPhrase);
+            }
+
+        }
+        catch (ApiException apiException)
+        {
+            logger.LogError(" ApiException {Message} ", apiException.Message);
+
+            throw;
+        }
+        catch (Exception exp)
+        {
+            logger.LogError(" Exception {Message} ", exp.Message);
+            throw;
+        }
+
+        return authorizationCode;
+
+    }
 }
