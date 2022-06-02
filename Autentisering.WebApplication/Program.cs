@@ -38,7 +38,7 @@ builder.Services.AddRefitClient<IRestrictedDataApi>(settings)
         .ConfigureHttpClient(c =>  {c.BaseAddress = new Uri("https://localhost:7170/"); });
 
 
-builder.Services.AddRefitClient<IdentityApi>()
+builder.Services.AddRefitClient<IIdentityApi>()
         .ConfigureHttpClient(c =>
         {
             c.BaseAddress = new Uri("https://localhost:7134/");

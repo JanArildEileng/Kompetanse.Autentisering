@@ -2,7 +2,7 @@
 
 namespace Autentisering.WebApplication.ExternalApi;
 
-public interface IdentityApi
+public interface IIdentityApi
 {
      [Get("/Identity")]
     Task<HttpResponseMessage> GetIdentityHttpResponseMessage(string userName, string password);

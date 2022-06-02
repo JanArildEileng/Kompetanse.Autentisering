@@ -6,9 +6,9 @@ namespace Autentisering.WebApplication.Services;
 public class IdentityService : IIdentityService
 {
     private readonly ILogger<IdentityService> logger;
-    private readonly IdentityApi identityApi;
+    private readonly IIdentityApi identityApi;
 
-    public IdentityService(ILogger<IdentityService> logger, IdentityApi identityApi)
+    public IdentityService(ILogger<IdentityService> logger, IIdentityApi identityApi)
     {
         this.logger = logger;
         this.identityApi = identityApi;
