@@ -24,10 +24,10 @@ public class LoginController : ControllerBase
         this.identityService = identityService;
     }
 
-   
+
 
     [HttpPost(Name = "Login")]
-    public async Task<ActionResult> Login( [FromServices] TokenValidetorService tokenValidetorService,string userName="TestUSer",string password= "TestUSer")
+    public async Task<ActionResult> Login([FromServices] AuthorizationCodeManger authorizationCodeManger , [FromServices] TokenValidetorService tokenValidetorService,string userName="TestUSer",string password= "TestUSer")
     {
         string authorizationCode = await identityService.GetAuthorizationCode("1234", userName, password);
 
@@ -35,6 +35,7 @@ public class LoginController : ControllerBase
         {
             return BadRequest($" Login {userName} not successful login (authorizationCode)");
         }
+
 
         var idToken = await identityService.GetIdToken(authorizationCode);
 
@@ -61,6 +62,11 @@ public class LoginController : ControllerBase
         identity.AddClaim(new Claim(ClaimTypes.Name, identityName));
         identity.AddClaim(new Claim(ClaimTypes.Role, "User"));
         //hmm...
+
+        authorizationCodeManger.SetAuthorizationCode(identityName, authorizationCode);
+
+
+
         identity.AddClaim(new Claim("authorizationCode", authorizationCode));
 
         var principal = new ClaimsPrincipal(identity);

@@ -2,7 +2,7 @@ using Autentisering.Shared;
 using Autentisering.WebApplication.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Security.Claims;
 
 namespace Autentisering.WebApplication.Controllers;
 
@@ -26,12 +26,17 @@ public class RestrictedDataController : ControllerBase
 
    
     [HttpGet(Name = "GetRestrictedData")]
-    public async Task<ActionResult<RestrictedData>> GetRestrictedData([FromServices]AccessTokenManger accessTokenManger)
+    public async Task<ActionResult<RestrictedData>> GetRestrictedData([FromServices] AuthorizationCodeManger authorizationCodeManger,[FromServices]AccessTokenManger accessTokenManger)
     {
         var identity = this.HttpContext.User.Identities.First();
-        var authorizationCode = identity.Claims.Where(c => c.Type == "authorizationCode").First().Value;
+        var name = identity.Claims.Where(c => c.Type == ClaimTypes.Name).First().Value;
 
-        _logger.LogInformation("GetRestrictedData authorizationCode={authorizationCode}", authorizationCode);
+
+
+        var authorizationCode=await authorizationCodeManger.GetAuthorizationCode(name);
+
+
+        _logger.LogInformation("GetRestrictedData authorizationCode={authorizationCode}  user={name}", authorizationCode,name);
 
 
 
@@ -48,7 +53,7 @@ public class RestrictedDataController : ControllerBase
         
         _logger.LogInformation("GetRestrictedData accessToken={accessToken}", accessToken);
 
-        AuthentTokenCache.accessToken = accessToken;
+        AuthentTokenCache.SetBearerToken(accessToken);
 
 
 

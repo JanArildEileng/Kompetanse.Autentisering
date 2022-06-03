@@ -26,6 +26,8 @@ builder.Services.AddSingleton<TokenValidetorService>();
 
 builder.Services.AddSingleton<AuthentTokenCache>();
 builder.Services.AddScoped<AccessTokenManger>();
+builder.Services.AddScoped<AuthorizationCodeManger>();
+
 
 
 

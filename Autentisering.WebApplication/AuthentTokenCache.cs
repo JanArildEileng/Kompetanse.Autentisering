@@ -1,13 +1,16 @@
-﻿namespace Autentisering.WebApplication
-{
-  
-    public class AuthentTokenCache
-    {
-        static public string accessToken { get; set; }
+﻿namespace Autentisering.WebApplication;
 
-        static public Task<string> AuthorizationHeaderValueGetter()
-        {
-            return Task.FromResult(accessToken);
-        }
+public class AuthentTokenCache
+{
+    static private string accessToken; 
+
+    static public void SetBearerToken(string accessToken)
+    {
+        AuthentTokenCache.accessToken = accessToken;
+    }
+
+    static public Task<string> AuthorizationHeaderValueGetter()
+    {
+        return Task.FromResult(accessToken);
     }
 }

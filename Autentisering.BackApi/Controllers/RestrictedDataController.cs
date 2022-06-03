@@ -1,6 +1,7 @@
 using Autentisering.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Autentisering.BackApi.Controllers
 {
@@ -10,7 +11,8 @@ namespace Autentisering.BackApi.Controllers
     [Route("api/[controller]")]
     public class RestrictedDataController : ControllerBase
     {
-      
+
+        static int counter = 1;
 
         private readonly ILogger<RestrictedDataController> _logger;
 
@@ -22,10 +24,14 @@ namespace Autentisering.BackApi.Controllers
         [HttpGet(Name = "GetRestrictedData")]
         public async Task<RestrictedData> Get()
         {
+            var identity = this.HttpContext.User.Identities.First();
+            var name = identity.Claims.Where(e => e.Type == ClaimTypes.Name).Select(e => e.Value).FirstOrDefault();
+
+
             RestrictedData restrictedData = new RestrictedData()
             {
-                Name = "Test",
-                Value = 1
+                Name = name,
+                Value = counter++
             };
 
             return await Task.FromResult(restrictedData);
