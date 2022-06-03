@@ -1,5 +1,4 @@
-﻿
-namespace Autentisering.WebApplication.Services
+﻿namespace Autentisering.RefitApi.Services
 {
     public interface IIdentityService
     {

@@ -1,8 +1,10 @@
-﻿using Autentisering.Shared;
-using Autentisering.WebApplication.ExternalApi;
+﻿using Autentisering.RefitApi.Api;
+using Autentisering.Shared;
+using Microsoft.Extensions.Logging;
 using Refit;
+using System.Net.Http.Json;
 
-namespace Autentisering.WebApplication.Services
+namespace Autentisering.RefitApi.Services
 {
     public class WeatherForecastService : IWeatherForecastService
     {
@@ -21,7 +23,7 @@ namespace Autentisering.WebApplication.Services
         {
             try
             {
-                var response = await this.weatherForecastApi.GetWeatherForecastHttpResponseMessage();
+                var response = await weatherForecastApi.GetWeatherForecastHttpResponseMessage();
                 if (response.IsSuccessStatusCode)
                 {
 

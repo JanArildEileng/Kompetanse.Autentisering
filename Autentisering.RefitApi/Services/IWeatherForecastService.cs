@@ -1,6 +1,6 @@
 ﻿using Autentisering.Shared;
 
-namespace Autentisering.WebApplication.Services
+namespace Autentisering.RefitApi.Services
 {
     public interface IWeatherForecastService
     {

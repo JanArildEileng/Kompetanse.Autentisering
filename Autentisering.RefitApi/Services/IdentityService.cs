@@ -1,7 +1,8 @@
-﻿using Autentisering.WebApplication.ExternalApi;
+﻿using Autentisering.RefitApi.Api;
+using Microsoft.Extensions.Logging;
 using Refit;
 
-namespace Autentisering.WebApplication.Services;
+namespace Autentisering.RefitApi.Services;
 
 public class IdentityService : IIdentityService
 {
@@ -15,11 +16,11 @@ public class IdentityService : IIdentityService
     }
     public async Task<string> Login(string userName = "TestUSer", string password = "Password")
     {
-        var identityName = String.Empty;
+        var identityName = string.Empty;
 
         try
         {
-            var response = await this.identityApi.GetIdentityHttpResponseMessage(userName, password);
+            var response = await identityApi.GetIdentityHttpResponseMessage(userName, password);
             if (response.IsSuccessStatusCode)
             {
                 identityName = await response.Content.ReadAsStringAsync();
@@ -28,12 +29,12 @@ public class IdentityService : IIdentityService
             {
                 throw new Exception("Identity failed " + response.ReasonPhrase);
             }
-               
+
         }
         catch (ApiException apiException)
         {
             logger.LogError(" ApiException {Message} ", apiException.Message);
-           
+
             throw;
         }
         catch (Exception exp)
@@ -49,11 +50,11 @@ public class IdentityService : IIdentityService
 
     public async Task<string> GetAuthorizationCode(string client_id, string userName, string password)
     {
-        var authorizationCode = String.Empty;
+        var authorizationCode = string.Empty;
 
         try
         {
-            var response = await this.identityApi.GetAuthorizationCode(client_id,userName, password);
+            var response = await identityApi.GetAuthorizationCode(client_id, userName, password);
             if (response.IsSuccessStatusCode)
             {
                 authorizationCode = await response.Content.ReadAsStringAsync();
@@ -83,11 +84,11 @@ public class IdentityService : IIdentityService
 
     public async Task<string> GetIdToken(string authorizationCode)
     {
-        var idToken = String.Empty;
+        var idToken = string.Empty;
 
         try
         {
-            var response = await this.identityApi.GetIdToken(authorizationCode);
+            var response = await identityApi.GetIdToken(authorizationCode);
             if (response.IsSuccessStatusCode)
             {
                 idToken = await response.Content.ReadAsStringAsync();
@@ -116,11 +117,11 @@ public class IdentityService : IIdentityService
 
     public async Task<string> GetAccessToken(string authorizationCode)
     {
-        var accessToken = String.Empty;
+        var accessToken = string.Empty;
 
         try
         {
-            var response = await this.identityApi.GetAccessToken(authorizationCode);
+            var response = await identityApi.GetAccessToken(authorizationCode);
             if (response.IsSuccessStatusCode)
             {
                 accessToken = await response.Content.ReadAsStringAsync();
@@ -149,11 +150,11 @@ public class IdentityService : IIdentityService
 
     public async Task<string> GetUserinfo(string AccessToken)
     {
-        var userinfo = String.Empty;
+        var userinfo = string.Empty;
 
         try
         {
-            var response = await this.identityApi.GetUserinfo(AccessToken);
+            var response = await identityApi.GetUserinfo(AccessToken);
             if (response.IsSuccessStatusCode)
             {
                 userinfo = await response.Content.ReadAsStringAsync();

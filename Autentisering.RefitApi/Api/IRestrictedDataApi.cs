@@ -1,10 +1,10 @@
 ﻿using Refit;
 
-namespace Autentisering.WebApplication.ExternalApi;
+namespace Autentisering.RefitApi.Api;
 
 [Headers("Authorization: Bearer")]
 public interface IRestrictedDataApi
 {
-     [Get("/api/RestrictedData")]
+    [Get("/api/RestrictedData")]
     Task<HttpResponseMessage> GetRestrictedData();
 }

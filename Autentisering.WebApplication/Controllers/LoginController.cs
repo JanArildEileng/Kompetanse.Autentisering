@@ -1,4 +1,5 @@
 
+using Autentisering.RefitApi.Services;
 using Autentisering.WebApplication.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -53,22 +54,17 @@ public class LoginController : ControllerBase
             return BadRequest($"Login {userName} not successful invalid jwtSecurityToken");
         }
 
+        //hent ut info fra claims i JWT (idtoken)
         var claims = jwtSecurityToken.Claims.ToList();
-        var identityName = claims.Where(e => e.Type == ClaimTypes.Name).Select(e => e.Value).FirstOrDefault();
+        var name = claims.Where(e => e.Type == ClaimTypes.Name).Select(e => e.Value).FirstOrDefault();
 
+        //bygg opp ClaimsPrincipal for Cookie
 
         var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
 
-        identity.AddClaim(new Claim(ClaimTypes.Name, identityName));
+        identity.AddClaim(new Claim(ClaimTypes.Name, name));
         identity.AddClaim(new Claim(ClaimTypes.Role, "User"));
-        //hmm...
-
-        authorizationCodeManger.SetAuthorizationCode(identityName, authorizationCode);
-
-
-
-        identity.AddClaim(new Claim("authorizationCode", authorizationCode));
-
+   
         var principal = new ClaimsPrincipal(identity);
 
         var authProperties = new AuthenticationProperties
@@ -78,10 +74,12 @@ public class LoginController : ControllerBase
             IsPersistent = true,
         };
 
+        //lagre authorizationCode i cache
+        authorizationCodeManger.SetAuthorizationCode(name, authorizationCode);
+
         await HttpContext.SignInAsync( new ClaimsPrincipal(principal), authProperties);
 
-
-        return Ok($" {identityName} successful login:  Idtoken={idToken}");
+        return Ok($"{name} successful login: Idtoken={idToken}");
     }
 
     [Microsoft.AspNetCore.Authorization.Authorize]

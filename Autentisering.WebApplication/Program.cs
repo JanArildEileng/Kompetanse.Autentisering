@@ -1,6 +1,7 @@
 
+using Autentisering.RefitApi.Api;
+using Autentisering.RefitApi.Services;
 using Autentisering.WebApplication;
-using Autentisering.WebApplication.ExternalApi;
 using Autentisering.WebApplication.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Refit;

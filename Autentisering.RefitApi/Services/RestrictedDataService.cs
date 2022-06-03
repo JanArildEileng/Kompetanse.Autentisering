@@ -1,8 +1,10 @@
-﻿using Autentisering.Shared;
-using Autentisering.WebApplication.ExternalApi;
+﻿using Autentisering.RefitApi.Api;
+using Autentisering.Shared;
+using Microsoft.Extensions.Logging;
 using Refit;
+using System.Net.Http.Json;
 
-namespace Autentisering.WebApplication.Services
+namespace Autentisering.RefitApi.Services
 {
     public class RestrictedDataService : IRestrictedDataService
     {
@@ -18,11 +20,11 @@ namespace Autentisering.WebApplication.Services
 
 
         public async Task<RestrictedData> GetRestrictedData()
-        {     
+        {
 
             try
             {
-                var response = await this.restrictedDataApi.GetRestrictedData();
+                var response = await restrictedDataApi.GetRestrictedData();
                 if (response.IsSuccessStatusCode)
                 {
 

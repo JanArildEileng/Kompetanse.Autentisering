@@ -1,14 +1,14 @@
 ﻿using Refit;
 
-namespace Autentisering.WebApplication.ExternalApi;
+namespace Autentisering.RefitApi.Api;
 
 public interface IIdentityApi
 {
-     [Get("/Identity")]
+    [Get("/Identity")]
     Task<HttpResponseMessage> GetIdentityHttpResponseMessage(string userName, string password);
 
     [Get("/Authorization/Code")]
-    Task<HttpResponseMessage> GetAuthorizationCode(string client_id,string userName, string password);
+    Task<HttpResponseMessage> GetAuthorizationCode(string client_id, string userName, string password);
 
 
     [Get("/Token/IdToken")]
@@ -19,6 +19,6 @@ public interface IIdentityApi
 
     [Get("/Userinfo")]
     Task<HttpResponseMessage> GetUserinfo(string AccessToken);
-   
+
 
 }
