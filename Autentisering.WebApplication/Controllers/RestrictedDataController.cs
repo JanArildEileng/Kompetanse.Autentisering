@@ -16,7 +16,7 @@ public class RestrictedDataController : ControllerBase
     private readonly IRestrictedDataService restrictedDataService;
     private readonly IIdentityService identityService;
 
-    public RestrictedDataController(ILogger<RestrictedDataController> logger, IRestrictedDataService restrictedDataService, IIdentityService identityService)
+    public RestrictedDataController(ILogger<RestrictedDataController> logger, IRestrictedDataService restrictedDataService, AccessTokenManger accessTokenManger)
     {
         _logger = logger;
         this.restrictedDataService = restrictedDataService;
@@ -26,7 +26,7 @@ public class RestrictedDataController : ControllerBase
 
    
     [HttpGet(Name = "GetRestrictedData")]
-    public async Task<ActionResult<RestrictedData>> GetRestrictedData()
+    public async Task<ActionResult<RestrictedData>> GetRestrictedData([FromServices]AccessTokenManger accessTokenManger)
     {
         var identity = this.HttpContext.User.Identities.First();
         var authorizationCode = identity.Claims.Where(c => c.Type == "authorizationCode").First().Value;
@@ -36,8 +36,11 @@ public class RestrictedDataController : ControllerBase
 
 
 
-        var accessToken = await identityService.GetAccessToken(authorizationCode);
-        
+//        var accessToken = await identityService.GetAccessToken(authorizationCode);
+        var accessToken = await accessTokenManger.GetAccessToken(authorizationCode);
+
+
+
         if ( string.IsNullOrEmpty(accessToken))
         {
             return BadRequest("Mangler accesstoken");

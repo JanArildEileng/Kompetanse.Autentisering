@@ -3,6 +3,7 @@ using Autentisering.WebApplication.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -26,7 +27,7 @@ public class LoginController : ControllerBase
    
 
     [HttpPost(Name = "Login")]
-    public async Task<ActionResult> Login([FromServices] TokenValidetorService tokenValidetorService,string userName="TestUSer",string password= "TestUSer")
+    public async Task<ActionResult> Login( [FromServices] TokenValidetorService tokenValidetorService,string userName="TestUSer",string password= "TestUSer")
     {
         string authorizationCode = await identityService.GetAuthorizationCode("1234", userName, password);
 
