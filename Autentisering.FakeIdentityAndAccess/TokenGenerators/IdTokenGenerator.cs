@@ -30,6 +30,7 @@ public class IdTokenGenerator
 
         var authClaims = new List<Claim> {
             new Claim(ClaimTypes.Name, "Jan"),
+            new Claim(ClaimTypes.Role, "User"),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 

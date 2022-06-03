@@ -57,13 +57,14 @@ public class LoginController : ControllerBase
         //hent ut info fra claims i JWT (idtoken)
         var claims = jwtSecurityToken.Claims.ToList();
         var name = claims.Where(e => e.Type == ClaimTypes.Name).Select(e => e.Value).FirstOrDefault();
+         var role= claims.Where(e => e.Type == ClaimTypes.Role).Select(e => e.Value).FirstOrDefault();
 
         //bygg opp ClaimsPrincipal for Cookie
 
         var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
 
         identity.AddClaim(new Claim(ClaimTypes.Name, name));
-        identity.AddClaim(new Claim(ClaimTypes.Role, "User"));
+        identity.AddClaim(new Claim(ClaimTypes.Role, role));
    
         var principal = new ClaimsPrincipal(identity);
 
@@ -79,18 +80,25 @@ public class LoginController : ControllerBase
 
         await HttpContext.SignInAsync( new ClaimsPrincipal(principal), authProperties);
 
-        return Ok($"{name} successful login: Idtoken={idToken}");
+        return Ok($"{name} ({role})  successful login: Idtoken={idToken}");
     }
 
     [Microsoft.AspNetCore.Authorization.Authorize]
     [HttpPost("Logout",Name = "Logout")]
     public async Task<ActionResult> Logout()
     {
-        var identity = this.HttpContext.User.Identities.First();
-        var name= identity.Claims.Where(c => c.Type == ClaimTypes.Name).First().Value;
+      
+        var name = GetIdentityName();
 
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return Ok($" {name} successful Logout");
+        return Ok($" {name}successful Logout");
+    }
+
+    private string GetIdentityName()
+    {
+        var identity = this.HttpContext.User.Identities.First();
+        var name = identity.Claims.Where(c => c.Type == ClaimTypes.Name).First().Value;
+        return name;
     }
 
 
