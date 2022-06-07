@@ -8,11 +8,6 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
     [Route("[controller]")]
     public class IdentityController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
         private readonly ILogger<IdentityController> _logger;
 
         public AuthorizationCodeCache authorizationCodeCache { get; }
@@ -21,7 +16,6 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
         {
             _logger = logger;
             this.authorizationCodeCache = authorizationCodeCache;
-
         }
 
         [HttpGet(Name = "GetIdentity")]
@@ -29,7 +23,6 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
         {
             return "Jan";
         }
-
 
         //return authorization_code
         [HttpGet("/Authorization/Code", Name = "GetAuthorizationCode")]
@@ -68,10 +61,7 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
 
                 //Genererte IDToken..
                 idtoken = idTokenGenerator.GetIdToken();
-
-
             }
-
 
                 return idtoken;
         }
@@ -92,8 +82,6 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
 
 
             }
-
-
 
             return accessToken;
         }

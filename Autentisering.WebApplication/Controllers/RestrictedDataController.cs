@@ -32,20 +32,11 @@ public class RestrictedDataController : ControllerBase
         var identity = this.HttpContext.User.Identities.First();
         var name = identity.Claims.Where(c => c.Type == ClaimTypes.Name).First().Value;
 
-
-
         var authorizationCode=await authorizationCodeManger.GetAuthorizationCode(name);
-
 
         _logger.LogInformation("GetRestrictedData authorizationCode={authorizationCode}  user={name}", authorizationCode,name);
 
-
-
-
-//        var accessToken = await identityService.GetAccessToken(authorizationCode);
         var accessToken = await accessTokenManger.GetAccessToken(authorizationCode);
-
-
 
         if ( string.IsNullOrEmpty(accessToken))
         {
@@ -53,13 +44,8 @@ public class RestrictedDataController : ControllerBase
         }
         
         _logger.LogInformation("GetRestrictedData accessToken={accessToken}", accessToken);
-
-        AuthentTokenCache.SetBearerToken(accessToken);
-
-
-
-        RestrictedData restrictedData = await this.restrictedDataService.GetRestrictedData();
+    
+        RestrictedData restrictedData = await this.restrictedDataService.GetRestrictedData(accessToken);
         return Ok(restrictedData);
-       
     }
 }

@@ -14,8 +14,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-
 builder.Services.AddMemoryCache();
 
 
@@ -24,11 +22,8 @@ builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
 builder.Services.AddScoped<IRestrictedDataService, RestrictedDataService>();
 
 builder.Services.AddSingleton<TokenValidetorService>();
-
-builder.Services.AddSingleton<AuthentTokenCache>();
 builder.Services.AddScoped<AccessTokenManger>();
 builder.Services.AddScoped<AuthorizationCodeManger>();
-
 
 
 
@@ -36,13 +31,11 @@ builder.Services.AddRefitClient<IWeatherForecastApi>()
         .ConfigureHttpClient(c =>  {c.BaseAddress = new Uri("https://localhost:7170/"); });
 
 
-RefitSettings settings = new RefitSettings()
-{
-    AuthorizationHeaderValueGetter = AuthentTokenCache.AuthorizationHeaderValueGetter
-};
-
-builder.Services.AddRefitClient<IRestrictedDataApi>(settings)
-        .ConfigureHttpClient(c =>  {c.BaseAddress = new Uri("https://localhost:7170/"); });
+builder.Services.AddRefitClient<IRestrictedDataApi>()
+        .ConfigureHttpClient(c => 
+        {
+            c.BaseAddress = new Uri("https://localhost:7170/");
+        });
 
 
 builder.Services.AddRefitClient<IIdentityApi>()

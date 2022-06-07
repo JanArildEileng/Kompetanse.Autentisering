@@ -4,6 +4,6 @@ namespace Autentisering.RefitApi.Services
 {
     public interface IRestrictedDataService
     {
-        Task<RestrictedData> GetRestrictedData();
+        Task<RestrictedData> GetRestrictedData(string accessToken);
     }
 }

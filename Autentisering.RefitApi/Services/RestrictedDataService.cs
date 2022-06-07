@@ -19,12 +19,12 @@ namespace Autentisering.RefitApi.Services
 
 
 
-        public async Task<RestrictedData> GetRestrictedData()
+        public async Task<RestrictedData> GetRestrictedData(string AccessToken)
         {
 
             try
             {
-                var response = await restrictedDataApi.GetRestrictedData();
+                var response = await restrictedDataApi.GetRestrictedData(AccessToken);
                 if (response.IsSuccessStatusCode)
                 {
 
