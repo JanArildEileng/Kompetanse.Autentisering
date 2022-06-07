@@ -22,8 +22,8 @@ builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
 builder.Services.AddScoped<IRestrictedDataService, RestrictedDataService>();
 
 builder.Services.AddSingleton<TokenValidetorService>();
-builder.Services.AddScoped<AccessTokenManger>();
-builder.Services.AddScoped<AuthorizationCodeManger>();
+builder.Services.AddSingleton<AccessTokenManger>();
+
 
 
 

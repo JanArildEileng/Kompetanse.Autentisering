@@ -1,4 +1,5 @@
 using Autentisering.FakeIdentityAndAccess.TokenGenerators;
+using Autentisering.Shared.IdentityAndAccess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -50,41 +51,39 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
         }
 
 
-        [HttpGet("/Token/IdToken", Name = "GetIdToken")]
-        public string GetIdToken(string authorizationCode, [FromServices] IdTokenGenerator idTokenGenerator)
+    
+       
+
+
+        [HttpGet("/Token", Name = "GetToken")]
+        public GetTokenResponse GetToken(string authorizationCode, [FromServices] AccessTokenGenerator accessTokenGenerator, [FromServices] IdTokenGenerator idTokenGenerator)
         {
-             string idtoken=String.Empty;
+            GetTokenResponse getTokenResponse = new(); 
 
-            if (authorizationCodeCache.TryGet(authorizationCode, out AuthorizationCodeContent authorizationCodeContent))
-            {
-                //ok...sjekk på client_id?
-
-                //Genererte IDToken..
-                idtoken = idTokenGenerator.GetIdToken();
-            }
-
-                return idtoken;
-        }
-
-        [HttpGet("/Token/AccessToken", Name = "GetAccessToken")]
-        public string GetAccessToken(string authorizationCode, [FromServices] AccessTokenGenerator accessTokenGenerator)
-        {
             string accessToken = String.Empty;
 
             if (authorizationCodeCache.TryGet(authorizationCode, out AuthorizationCodeContent authorizationCodeContent))
             {
                 //ok...sjekk på client_id?
+                  //Generer AccessToken..
+                 getTokenResponse.AccessToken = accessTokenGenerator.GetAccessToken();
 
-                //Genererte AccessToken..
-                accessToken = accessTokenGenerator.GetAccessToken();
-            } else
+                //Generer IdToken..
+                 getTokenResponse.IdToken = idTokenGenerator.GetIdToken();
+
+
+                getTokenResponse.Expire = DateTime.Now.AddMinutes(5);
+            }
+            else
             {
 
 
             }
 
-            return accessToken;
+            return getTokenResponse;
         }
+
+
 
         [HttpGet("/Userinfo", Name = "GetUserinfo")]
         public string GetUserinfo(string access_token)

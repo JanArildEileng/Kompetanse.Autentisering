@@ -12,35 +12,39 @@ namespace Autentisering.WebApplication.Services
         MemoryCacheEntryOptions memoryCacheEntryOptions;
 
 
-        public AccessTokenManger(ILogger<AccessTokenManger> logger,IMemoryCache memoryCache, IIdentityService identityService)
+        private  string Key(string username) => $"{TokenKey}:{username}";
+
+        public AccessTokenManger(ILogger<AccessTokenManger> logger,IMemoryCache memoryCache)
         {
             this.logger = logger;
             this.memoryCache = memoryCache;
-            this.identityService = identityService;
             memoryCacheEntryOptions = new MemoryCacheEntryOptions()
                 .SetAbsoluteExpiration(DateTime.Now.AddMinutes(5));
 
         }
 
-
-        public async Task<string> GetAccessToken(string authorizationCode)
+        public void SetAccessToken(string username,string accessToken)
         {
-            string accessToken;
+  
+              if (accessToken != null)
+            {
+                logger.LogInformation("Add token to memoryCache");
+                memoryCache.Set(Key, accessToken, memoryCacheEntryOptions);
+            }
+        }
 
-            if (memoryCache.TryGetValue(TokenKey, out accessToken))
+        public async Task<string> GetAccessToken(string username)
+        {
+      
+            if (memoryCache.TryGetValue(Key, out string accessToken))
             {
                 return accessToken;
             }
 
-            accessToken = await identityService.GetAccessToken(authorizationCode);
-            if (accessToken != null)
-            {
-                logger.LogInformation("Add token to memoryCache");
-                memoryCache.Set(TokenKey, accessToken, memoryCacheEntryOptions);
-            }
+           //fresh ?
 
 
-            return accessToken;
+            return null;
         }
 
 

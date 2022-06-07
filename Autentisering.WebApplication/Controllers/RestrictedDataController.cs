@@ -27,16 +27,13 @@ public class RestrictedDataController : ControllerBase
 
    
     [HttpGet(Name = "GetRestrictedData")]
-    public async Task<ActionResult<RestrictedData>> GetRestrictedData([FromServices] AuthorizationCodeManger authorizationCodeManger,[FromServices]AccessTokenManger accessTokenManger)
+    public async Task<ActionResult<RestrictedData>> GetRestrictedData([FromServices]AccessTokenManger accessTokenManger)
     {
         var identity = this.HttpContext.User.Identities.First();
         var name = identity.Claims.Where(c => c.Type == ClaimTypes.Name).First().Value;
 
-        var authorizationCode=await authorizationCodeManger.GetAuthorizationCode(name);
-
-        _logger.LogInformation("GetRestrictedData authorizationCode={authorizationCode}  user={name}", authorizationCode,name);
-
-        var accessToken = await accessTokenManger.GetAccessToken(authorizationCode);
+   
+        var accessToken = await accessTokenManger.GetAccessToken(name);
 
         if ( string.IsNullOrEmpty(accessToken))
         {

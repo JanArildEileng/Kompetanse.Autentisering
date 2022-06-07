@@ -1,4 +1,6 @@
-﻿namespace Autentisering.RefitApi.Services
+﻿using Autentisering.Shared.IdentityAndAccess;
+
+namespace Autentisering.RefitApi.Services
 {
     public interface IIdentityService
     {
@@ -6,8 +8,9 @@
 
         Task<string> GetAuthorizationCode(string client_id, string userName, string password);
 
-        Task<string> GetIdToken(string authorizationCode);
-        Task<string> GetAccessToken(string authorizationCode);
+  
+        Task<GetTokenResponse> GetToken(string authorizationCode);
+    
         Task<string> GetUserinfo(string AccessToken);
 
     }

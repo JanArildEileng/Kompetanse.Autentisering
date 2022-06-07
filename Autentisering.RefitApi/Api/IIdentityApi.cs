@@ -11,11 +11,9 @@ public interface IIdentityApi
     Task<HttpResponseMessage> GetAuthorizationCode(string client_id, string userName, string password);
 
 
-    [Get("/Token/IdToken")]
-    Task<HttpResponseMessage> GetIdToken(string authorizationCode);
+    [Get("/Token")]
+    Task<HttpResponseMessage> GetToken(string authorizationCode);
 
-    [Get("/Token/AccessToken")]
-    Task<HttpResponseMessage> GetAccessToken(string authorizationCode);
 
     [Get("/Userinfo")]
     Task<HttpResponseMessage> GetUserinfo(string AccessToken);

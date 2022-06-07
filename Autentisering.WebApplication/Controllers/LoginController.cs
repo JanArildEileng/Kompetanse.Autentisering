@@ -28,7 +28,7 @@ public class LoginController : ControllerBase
 
 
     [HttpPost(Name = "Login")]
-    public async Task<ActionResult> Login([FromServices] AuthorizationCodeManger authorizationCodeManger , [FromServices] TokenValidetorService tokenValidetorService,string userName="TestUSer",string password= "TestUSer")
+    public async Task<ActionResult> Login([FromServices] AccessTokenManger accessTokenManger,[FromServices] TokenValidetorService tokenValidetorService,string userName="TestUSer",string password= "TestUSer")
     {
         string authorizationCode = await identityService.GetAuthorizationCode("1234", userName, password);
 
@@ -37,8 +37,12 @@ public class LoginController : ControllerBase
             return BadRequest($" Login {userName} not successful login (authorizationCode)");
         }
 
+        var getTokenResponse = await identityService.GetToken(authorizationCode);
 
-        var idToken = await identityService.GetIdToken(authorizationCode);
+
+        var idToken = getTokenResponse.IdToken;
+
+
 
 
         if (String.IsNullOrEmpty(idToken))
@@ -75,8 +79,16 @@ public class LoginController : ControllerBase
             IsPersistent = true,
         };
 
-        //lagre authorizationCode i cache
-        authorizationCodeManger.SetAuthorizationCode(name, authorizationCode);
+
+        var accessToken = getTokenResponse.AccessToken;
+
+
+        if (!String.IsNullOrEmpty(accessToken))
+        {
+                accessTokenManger.SetAccessToken(name,accessToken);
+        }
+       
+        
 
         await HttpContext.SignInAsync( new ClaimsPrincipal(principal), authProperties);
 
