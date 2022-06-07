@@ -92,7 +92,11 @@ public class LoginController : ControllerBase
 
         await HttpContext.SignInAsync( new ClaimsPrincipal(principal), authProperties);
 
-        return Ok($"{name} ({role})  successful login: Idtoken={idToken}");
+        var jti = claims.Where(e => e.Type == JwtRegisteredClaimNames.Jti).Select(e => e.Value).FirstOrDefault();
+
+
+
+        return Ok($"{name} ({role})  successful login: jti={jti}");
     }
 
     [Microsoft.AspNetCore.Authorization.Authorize]

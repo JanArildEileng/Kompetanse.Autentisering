@@ -37,6 +37,7 @@ public class IdTokenGenerator
         var token = new JwtSecurityToken(issuer,
           audience,
           authClaims,
+          
           expires: jwtValidity,
           signingCredentials: creds);
 

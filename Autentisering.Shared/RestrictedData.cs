@@ -10,5 +10,6 @@ namespace Autentisering.Shared
     {
         public String Name { get; set; }
         public int Value { get; set; }
+        public string? Jti { get; set; }
     }
 }
