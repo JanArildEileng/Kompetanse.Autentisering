@@ -28,7 +28,7 @@ public class LoginController : ControllerBase
 
 
     [HttpPost(Name = "Login")]
-    public async Task<ActionResult> Login([FromServices] AccessTokenManger accessTokenManger,[FromServices] TokenValidetorService tokenValidetorService,string userName="TestUSer",string password= "TestUSer")
+    public async Task<ActionResult> Login([FromServices] TokenManger tokenManger, [FromServices] TokenValidetorService tokenValidetorService,string userName="TestUSer",string password= "TestUSer")
     {
         string authorizationCode = await identityService.GetAuthorizationCode("1234", userName, password);
 
@@ -85,7 +85,7 @@ public class LoginController : ControllerBase
 
         if (!String.IsNullOrEmpty(accessToken))
         {
-                accessTokenManger.SetAccessToken(name,accessToken);
+            tokenManger.SetToken(name,accessToken, getTokenResponse.RefreshToken);
         }
        
         
@@ -109,6 +109,37 @@ public class LoginController : ControllerBase
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return Ok($" {name}successful Logout");
     }
+
+
+    [HttpPost("Refresh", Name = "Refresh")]
+    public async Task<ActionResult> Refresh([FromServices] TokenManger tokenManger)
+    {
+        var name = GetIdentityName();
+
+        (string accessToken,string refreshToken) = await tokenManger.GetToken(name);
+
+        if (string.IsNullOrEmpty(accessToken))
+        {
+            return BadRequest("Mangler accesstoken");
+        }
+        if (string.IsNullOrEmpty(refreshToken))
+        {
+            return BadRequest("Mangler refreshToken");
+        }
+
+        var getTokenResponse = await identityService.GetRefreshedTokens(refreshToken);
+
+        if (getTokenResponse != null)
+        {
+            tokenManger.SetToken(name, getTokenResponse.AccessToken, getTokenResponse.RefreshToken);
+            return Ok($" {name}successful Refresh");
+        }
+
+        return BadRequest($" {name} unsuccessful Refresh");
+    }
+
+
+
 
     private string GetIdentityName()
     {

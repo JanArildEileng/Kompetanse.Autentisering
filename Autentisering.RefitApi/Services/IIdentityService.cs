@@ -10,7 +10,9 @@ namespace Autentisering.RefitApi.Services
 
   
         Task<GetTokenResponse> GetToken(string authorizationCode);
-    
+        Task<GetTokenResponse> GetRefreshedTokens(string refreshToken);
+
+
         Task<string> GetUserinfo(string AccessToken);
 
     }

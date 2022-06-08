@@ -22,7 +22,7 @@ builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
 builder.Services.AddScoped<IRestrictedDataService, RestrictedDataService>();
 
 builder.Services.AddSingleton<TokenValidetorService>();
-builder.Services.AddSingleton<AccessTokenManger>();
+builder.Services.AddSingleton<TokenManger>();
 
 
 

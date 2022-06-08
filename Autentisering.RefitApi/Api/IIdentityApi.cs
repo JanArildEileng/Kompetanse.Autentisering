@@ -15,6 +15,11 @@ public interface IIdentityApi
     Task<HttpResponseMessage> GetToken(string authorizationCode);
 
 
+    [Get("/Token/Refresh")]
+    Task<HttpResponseMessage> GetRefreshedTokens(string refreshToken);
+
+
+
     [Get("/Userinfo")]
     Task<HttpResponseMessage> GetUserinfo(string AccessToken);
 

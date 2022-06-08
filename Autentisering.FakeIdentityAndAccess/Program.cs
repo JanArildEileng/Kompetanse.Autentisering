@@ -1,5 +1,6 @@
 using Autentisering.FakeIdentityAndAccess;
 using Autentisering.FakeIdentityAndAccess.TokenGenerators;
+using Autentisering.FakeIdentityAndAccess.TokenValidators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,11 @@ builder.Services.AddSingleton<AuthorizationCodeCache>();
 
 builder.Services.AddSingleton<IdTokenGenerator>();
 builder.Services.AddSingleton<AccessTokenGenerator>();
+builder.Services.AddSingleton<RefreshTokenGenerator>();
+builder.Services.AddSingleton<RefreshTokenValidetor>();
+
+
+
 
 builder.Services.AddSingleton<UserRepoitory>();
 

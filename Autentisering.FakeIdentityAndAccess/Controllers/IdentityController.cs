@@ -1,7 +1,9 @@
 using Autentisering.FakeIdentityAndAccess.TokenGenerators;
+using Autentisering.FakeIdentityAndAccess.TokenValidators;
 using Autentisering.Shared.IdentityAndAccess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Autentisering.FakeIdentityAndAccess.Controllers
 {
@@ -58,7 +60,7 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
 
 
         [HttpGet("/Token", Name = "GetToken")]
-        public GetTokenResponse GetToken(string authorizationCode, [FromServices] AccessTokenGenerator accessTokenGenerator, [FromServices] IdTokenGenerator idTokenGenerator)
+        public GetTokenResponse GetToken(string authorizationCode, [FromServices] AccessTokenGenerator accessTokenGenerator, [FromServices] IdTokenGenerator idTokenGenerator, [FromServices] RefreshTokenGenerator refreshTokenGenerator)
         {
             GetTokenResponse getTokenResponse = new(); 
 
@@ -74,6 +76,8 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
 
                 //Generer IdToken..
                  getTokenResponse.IdToken = idTokenGenerator.GetIdToken(user);
+                //Generer FreshToken
+                getTokenResponse.RefreshToken = refreshTokenGenerator.GetFreshToken(user);
 
 
                 getTokenResponse.Expire = DateTime.Now.AddMinutes(5);
@@ -85,6 +89,49 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
             }
 
             return getTokenResponse;
+        }
+
+
+
+        [HttpGet("/Token/Refresh", Name = "GetRefreshedTokens")]
+        public  GetTokenResponse GetRefreshedTokens(string refreshToken ,[FromServices] AccessTokenGenerator accessTokenGenerator, [FromServices] RefreshTokenGenerator refreshTokenGenerator, [FromServices] RefreshTokenValidetor refreshTokenValidetor, [FromServices] UserRepoitory userRepoitory)
+        {
+            GetTokenResponse getTokenResponse = new();
+
+            string accessToken = String.Empty;
+
+            JwtSecurityToken jwtSecurityToken = refreshTokenValidetor.ReadValidateIdToken(refreshToken);
+
+            if (jwtSecurityToken == null)
+            {
+                //    return BadRequest($"invalid refreshToken");
+                return null;
+            }
+
+            var claims = jwtSecurityToken.Claims.ToList();
+            var jti = claims.Where(e => e.Type == JwtRegisteredClaimNames.Jti).Select(e => e.Value).FirstOrDefault();
+
+
+            User user = userRepoitory.GetUser(Guid.Parse(jti));
+
+            if (user!=null)
+            {
+                //ok...sjekk på client_id?
+                //Generer AccessToken..
+                getTokenResponse.AccessToken = accessTokenGenerator.GetAccessToken(user);
+                getTokenResponse.RefreshToken = refreshTokenGenerator.GetFreshToken(user);
+
+                getTokenResponse.Expire = DateTime.Now.AddMinutes(5);
+            }
+            else
+            {
+             //   return BadRequest($"user not found");
+                return null;
+
+            }
+
+            return getTokenResponse;
+           // return Ok(getTokenResponse);
         }
 
 

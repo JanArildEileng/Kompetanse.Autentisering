@@ -25,5 +25,9 @@
             return users.Where(e => e.Name == name).FirstOrDefault();
         }
 
+        public User GetUser(Guid guid)
+        {
+            return users.Where(e => e.Guid == guid).FirstOrDefault();
+        }
     }
 }

@@ -159,4 +159,38 @@ public class IdentityService : IIdentityService
 
         return getTokenResponse;
     }
+
+
+
+    public async Task<GetTokenResponse> GetRefreshedTokens(string refreshToken)
+    {
+        GetTokenResponse getTokenResponse = null;
+
+        try
+        {
+            var response = await identityApi.GetRefreshedTokens(refreshToken);
+            if (response.IsSuccessStatusCode)
+            {
+                getTokenResponse = JsonSerializer.Deserialize<GetTokenResponse>(await response.Content.ReadAsStringAsync(), options);
+            }
+            else
+            {
+                throw new Exception("Identity failed " + response.ReasonPhrase);
+            }
+
+        }
+        catch (ApiException apiException)
+        {
+            logger.LogError(" ApiException {Message} ", apiException.Message);
+
+            throw;
+        }
+        catch (Exception exp)
+        {
+            logger.LogError(" Exception {Message} ", exp.Message);
+            throw;
+        }
+
+        return getTokenResponse;
+    }
 }
