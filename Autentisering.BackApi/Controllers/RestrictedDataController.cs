@@ -25,20 +25,41 @@ namespace Autentisering.BackApi.Controllers
         [HttpGet(Name = "GetRestrictedData")]
         public async Task<RestrictedData> Get()
         {
+            JwtSecurityToken jwtSecurityToken= GetBearerToken();
+
             var identity = this.HttpContext.User.Identities.First();
             var name = identity.Claims.Where(e => e.Type == ClaimTypes.Name).Select(e => e.Value).FirstOrDefault();
             var jti = identity.Claims.Where(e => e.Type == JwtRegisteredClaimNames.Jti).Select(e => e.Value).FirstOrDefault();
-
-
 
             RestrictedData restrictedData = new RestrictedData()
             {
                 Name = name,
                 Value = counter++,
-                Jti= jti
+                Jti = jti,
+                ValidTo = jwtSecurityToken?.ValidTo.ToLocalTime()
             };
 
             return await Task.FromResult(restrictedData);
+        }
+
+
+        private JwtSecurityToken GetBearerToken()
+        {
+            JwtSecurityToken jwtSecurityToken = null;
+
+            var bearerToken = this.HttpContext.Request.Headers["Authorization"].ToString();
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var token = bearerToken.Replace("Bearer ", "");
+                jwtSecurityToken = handler.ReadJwtToken(token);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+            }
+
+            return jwtSecurityToken;
         }
     }
 }

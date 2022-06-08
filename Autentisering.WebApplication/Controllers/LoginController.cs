@@ -132,7 +132,7 @@ public class LoginController : ControllerBase
         if (getTokenResponse != null)
         {
             tokenManger.SetToken(name, getTokenResponse.AccessToken, getTokenResponse.RefreshToken);
-            return Ok($" {name}successful Refresh");
+            return Ok($" {name}successful Refresh Expire={getTokenResponse.Expire} ");
         }
 
         return BadRequest($" {name} unsuccessful Refresh");
