@@ -28,12 +28,17 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
             return user;
         }
 
+        [HttpGet("All", Name = "GetAllIdentity")]
+        public List<User> GetAllIdentity([FromServices] UserRepoitory userRepoitory)
+        {
+            var users = userRepoitory.GetAllUser();
+            return users;
+        }
 
-    
-       
 
 
-      
+
+
 
 
         [HttpGet("/Userinfo", Name = "GetUserinfo")]

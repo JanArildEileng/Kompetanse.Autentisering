@@ -31,7 +31,7 @@ public class IdTokenGenerator
 
         var authClaims = new List<Claim> {
             new Claim(ClaimTypes.Name, user.Name),
-            new Claim(ClaimTypes.Role, "User"),
+            new Claim(ClaimTypes.Role,user.Role.ToString()),
             new Claim(JwtRegisteredClaimNames.Jti,user.Guid.ToString()),
         };
 

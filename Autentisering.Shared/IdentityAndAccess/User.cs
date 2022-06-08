@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Autentisering.Shared.IdentityAndAccess
+﻿namespace Autentisering.Shared.IdentityAndAccess;
+public enum Roletype
 {
-    public class User
-    {
-        public string Name { get; set; }
-        public Guid Guid { get; set; }
-    }
+    Basic,Cat,Master,Super
+}
+public class User
+{
+    public string Name { get; set; }
+    public Guid Guid { get; set; }
+    public Roletype Role { get; set; }
 }
