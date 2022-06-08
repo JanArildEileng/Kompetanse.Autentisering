@@ -1,4 +1,6 @@
-﻿namespace Autentisering.FakeIdentityAndAccess
+﻿using Autentisering.Shared.IdentityAndAccess;
+
+namespace Autentisering.FakeIdentityAndAccess
 {
     public class AuthorizationCodeContent
     {

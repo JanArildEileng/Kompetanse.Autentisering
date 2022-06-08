@@ -22,9 +22,10 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
         }
 
         [HttpGet(Name = "GetIdentity")]
-        public string GetIdentity(string userName,string password)
+        public User GetIdentity(string jti, [FromServices] UserRepoitory userRepoitory)
         {
-            return "Jan";
+            User user = userRepoitory.GetUser(Guid.Parse(jti));
+            return user;
         }
 
 

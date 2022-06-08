@@ -1,11 +1,9 @@
-﻿namespace Autentisering.FakeIdentityAndAccess
+﻿using Autentisering.Shared.IdentityAndAccess;
+
+namespace Autentisering.FakeIdentityAndAccess
 {
 
-    public class User
-    {
-        public string Name { get; set; }
-        public Guid Guid { get; set; }
-    }
+   
 
     public class UserRepoitory
     {
