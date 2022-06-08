@@ -18,22 +18,13 @@ builder.Services.AddMemoryCache();
 
 
 builder.Services.AddScoped<IIdentityAndAccessApiService, IdentityAndAccessApiService>();
-builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
-builder.Services.AddScoped<IRestrictedDataService, RestrictedDataService>();
+builder.Services.AddScoped<IBackendApiService, BackendApiService>();
 
 builder.Services.AddSingleton<TokenValidetorService>();
 builder.Services.AddSingleton<TokenCacheManager>();
 builder.Services.AddScoped<TokenFreshService>();
 
-
-
-
-
-builder.Services.AddRefitClient<IWeatherForecastApi>()
-        .ConfigureHttpClient(c =>  {c.BaseAddress = new Uri("https://localhost:7170/"); });
-
-
-builder.Services.AddRefitClient<IRestrictedDataApi>()
+builder.Services.AddRefitClient<IBackendApi>()
         .ConfigureHttpClient(c => 
         {
             c.BaseAddress = new Uri("https://localhost:7170/");

@@ -12,21 +12,21 @@ public class WeatherForecastController : ControllerBase
 {
 
     private readonly ILogger<WeatherForecastController> _logger;
-    private readonly IWeatherForecastService weatherForecastService;
+    private readonly IBackendApiService backendApiService;
 
 
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger, IWeatherForecastService weatherForecastService)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, IBackendApiService backendApiService)
     {
         _logger = logger;
-        this.weatherForecastService = weatherForecastService;
+        this.backendApiService = backendApiService;
     }
 
     [HttpGet(Name = "GetWeatherForecastHttpResponseMessage")]
     public async Task<ActionResult<IEnumerable<WeatherForecast>>> GetWeatherForecastHttpResponseMessage()
     {
 
-        var weatherForecast = await this.weatherForecastService.GetWeatherForecastHttpResponseMessage();
+        var weatherForecast = await this.backendApiService.GetWeatherForecastHttpResponseMessage();
         return Ok(weatherForecast);
        
     }

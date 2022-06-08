@@ -14,10 +14,10 @@ public class RestrictedDataController : ControllerBase
 {
 
     private readonly ILogger<RestrictedDataController> _logger;
-    private readonly IRestrictedDataService restrictedDataService;
+    private readonly IBackendApiService restrictedDataService;
     private readonly IIdentityAndAccessApiService identityService;
 
-    public RestrictedDataController(ILogger<RestrictedDataController> logger, IRestrictedDataService restrictedDataService, TokenCacheManager accessTokenManger)
+    public RestrictedDataController(ILogger<RestrictedDataController> logger, IBackendApiService restrictedDataService, TokenCacheManager accessTokenManger)
     {
         _logger = logger;
         this.restrictedDataService = restrictedDataService;

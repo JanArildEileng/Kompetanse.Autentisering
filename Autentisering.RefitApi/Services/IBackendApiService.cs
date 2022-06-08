@@ -2,8 +2,10 @@
 
 namespace Autentisering.RefitApi.Services
 {
-    public interface IWeatherForecastService
+    public interface IBackendApiService
     {
+        Task<RestrictedData> GetRestrictedData(string accessToken);
+
         Task<IEnumerable<WeatherForecast>> GetWeatherForecastHttpResponseMessage();
     }
 }
