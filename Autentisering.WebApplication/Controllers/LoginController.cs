@@ -3,6 +3,7 @@ using Autentisering.RefitApi.Services;
 using Autentisering.WebApplication.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System.IdentityModel.Tokens.Jwt;
@@ -14,21 +15,15 @@ namespace Autentisering.WebApplication.Controllers;
 [Route("[controller]")]
 public class LoginController : ControllerBase
 {
-
     private readonly ILogger<LoginController> _logger;
-    public IIdentityAndAccessApiService identityService { get; }
 
-    public LoginController(ILogger<LoginController> logger, IIdentityAndAccessApiService identityService)
+    public LoginController(ILogger<LoginController> logger)
     {
         _logger = logger;
-      
-        this.identityService = identityService;
     }
 
-
-
     [HttpPost(Name = "Login")]
-    public async Task<ActionResult> Login([FromServices] TokenManger tokenManger, [FromServices] TokenValidetorService tokenValidetorService,string userName="TestUSer",string password= "TestUSer")
+    public async Task<ActionResult> Login([FromServices] IIdentityAndAccessApiService identityService,[FromServices] TokenManger tokenManger, [FromServices] TokenValidetorService tokenValidetorService, string userName = "TestUSer", string password = "TestUSer")
     {
         string authorizationCode = await identityService.GetAuthorizationCode("1234", userName, password);
 
@@ -40,20 +35,14 @@ public class LoginController : ControllerBase
         var getTokenResponse = await identityService.GetToken(authorizationCode);
 
 
-        var idToken = getTokenResponse.IdToken;
-
-
-
-
-        if (String.IsNullOrEmpty(idToken))
+        if (String.IsNullOrEmpty(getTokenResponse.IdToken))
         {
             return BadRequest($" Login {userName} not successful login (idToken)");
         }
-        //legg på validering her..!
-  
-        JwtSecurityToken jwtSecurityToken = tokenValidetorService.ReadValidateIdToken(idToken);
 
-        if (jwtSecurityToken==null)
+        JwtSecurityToken jwtSecurityToken = tokenValidetorService.ReadValidateIdToken(getTokenResponse.IdToken);
+
+        if (jwtSecurityToken == null)
         {
             return BadRequest($"Login {userName} not successful invalid jwtSecurityToken");
         }
@@ -61,7 +50,7 @@ public class LoginController : ControllerBase
         //hent ut info fra claims i JWT (idtoken)
         var claims = jwtSecurityToken.Claims.ToList();
         var name = claims.Where(e => e.Type == ClaimTypes.Name).Select(e => e.Value).FirstOrDefault();
-         var role= claims.Where(e => e.Type == ClaimTypes.Role).Select(e => e.Value).FirstOrDefault();
+        var role = claims.Where(e => e.Type == ClaimTypes.Role).Select(e => e.Value).FirstOrDefault();
 
         //bygg opp ClaimsPrincipal for Cookie
 
@@ -69,7 +58,7 @@ public class LoginController : ControllerBase
 
         identity.AddClaim(new Claim(ClaimTypes.Name, name));
         identity.AddClaim(new Claim(ClaimTypes.Role, role));
-   
+
         var principal = new ClaimsPrincipal(identity);
 
         var authProperties = new AuthenticationProperties
@@ -79,65 +68,43 @@ public class LoginController : ControllerBase
             IsPersistent = true,
         };
 
-
-        var accessToken = getTokenResponse.AccessToken;
-
-
-        if (!String.IsNullOrEmpty(accessToken))
+   
+        if (!String.IsNullOrEmpty(getTokenResponse.AccessToken))
         {
-            tokenManger.SetToken(name,accessToken, getTokenResponse.RefreshToken);
+            tokenManger.SetToken(name, getTokenResponse.AccessToken, getTokenResponse.RefreshToken);
         }
-       
-        
 
-        await HttpContext.SignInAsync( new ClaimsPrincipal(principal), authProperties);
+        await HttpContext.SignInAsync(new ClaimsPrincipal(principal), authProperties);
 
         var jti = claims.Where(e => e.Type == JwtRegisteredClaimNames.Jti).Select(e => e.Value).FirstOrDefault();
-
-
 
         return Ok($"{name} ({role})  successful login: jti={jti}");
     }
 
-    [Microsoft.AspNetCore.Authorization.Authorize]
-    [HttpPost("Logout",Name = "Logout")]
+    [Authorize]
+    [HttpPost("Logout", Name = "Logout")]
     public async Task<ActionResult> Logout()
     {
-      
+
         var name = GetIdentityName();
 
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return Ok($" {name}successful Logout");
     }
 
-
+    [Authorize]
     [HttpPost("Refresh", Name = "Refresh")]
-    public async Task<ActionResult> Refresh([FromServices] TokenManger tokenManger)
+    public async Task<ActionResult> Refresh([FromServices] TokenFreshService tokenFreshService)
     {
-        var name = GetIdentityName();
+ 
+        (bool status, string text) = await tokenFreshService.RefreshToken(GetIdentityName());
 
-        (string accessToken,string refreshToken) = await tokenManger.GetToken(name);
-
-        if (string.IsNullOrEmpty(accessToken))
+        switch (status)
         {
-            return BadRequest("Mangler accesstoken");
+            case true: return Ok(text);
+            case false: return BadRequest(text);
         }
-        if (string.IsNullOrEmpty(refreshToken))
-        {
-            return BadRequest("Mangler refreshToken");
-        }
-
-        var getTokenResponse = await identityService.GetRefreshedTokens(refreshToken);
-
-        if (getTokenResponse != null)
-        {
-            tokenManger.SetToken(name, getTokenResponse.AccessToken, getTokenResponse.RefreshToken);
-            return Ok($" {name}successful Refresh Expire={getTokenResponse.Expire} ");
-        }
-
-        return BadRequest($" {name} unsuccessful Refresh");
     }
-
 
 
 

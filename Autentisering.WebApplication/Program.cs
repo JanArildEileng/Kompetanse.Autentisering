@@ -23,6 +23,8 @@ builder.Services.AddScoped<IRestrictedDataService, RestrictedDataService>();
 
 builder.Services.AddSingleton<TokenValidetorService>();
 builder.Services.AddSingleton<TokenManger>();
+builder.Services.AddScoped<TokenFreshService>();
+
 
 
 
