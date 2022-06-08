@@ -94,7 +94,7 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
 
 
         [HttpGet("/Token/Refresh", Name = "GetRefreshedTokens")]
-        public  GetTokenResponse GetRefreshedTokens(string refreshToken ,[FromServices] AccessTokenGenerator accessTokenGenerator, [FromServices] RefreshTokenGenerator refreshTokenGenerator, [FromServices] RefreshTokenValidetor refreshTokenValidetor, [FromServices] UserRepoitory userRepoitory)
+        public  ActionResult<GetTokenResponse> GetRefreshedTokens(string refreshToken ,[FromServices] AccessTokenGenerator accessTokenGenerator, [FromServices] RefreshTokenGenerator refreshTokenGenerator, [FromServices] RefreshTokenValidetor refreshTokenValidetor, [FromServices] UserRepoitory userRepoitory)
         {
             GetTokenResponse getTokenResponse = new();
 
@@ -104,8 +104,7 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
 
             if (jwtSecurityToken == null)
             {
-                //    return BadRequest($"invalid refreshToken");
-                return null;
+                  return BadRequest($"invalid refreshToken");
             }
 
             var claims = jwtSecurityToken.Claims.ToList();
@@ -125,13 +124,11 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
             }
             else
             {
-             //   return BadRequest($"user not found");
-                return null;
-
+                return BadRequest($"user not found");
+  
             }
 
-            return getTokenResponse;
-           // return Ok(getTokenResponse);
+            return Ok(getTokenResponse);
         }
 
 
