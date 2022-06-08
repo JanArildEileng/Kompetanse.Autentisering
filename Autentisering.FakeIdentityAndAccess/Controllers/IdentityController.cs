@@ -27,20 +27,22 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
 
         //return authorization_code
         [HttpGet("/Authorization/Code", Name = "GetAuthorizationCode")]
-        public string GetAuthorizationCode(string client_id="1234", string userName="test", string password="test")
+        public string GetAuthorizationCode([FromServices] UserRepoitory userRepoitory,  string client_id="1234", string userName="test", string password="test")
         {
             string authorizationCode = String.Empty;
 
             //sjekk user/pass, return valid authorization_code if ok
-            
-            if (userName.Equals(password))
+            var user = userRepoitory.GetUser(userName);
+
+            if (user!=null)
             {
                 authorizationCode = Guid.NewGuid().ToString();
                 //må lagre denn i MemoryCach
                 AuthorizationCodeContent authorizationCodeContent = new AuthorizationCodeContent()
                 {
                     AuthorizationCode = authorizationCode,
-                    Client_id = client_id
+                    Client_id = client_id,
+                    User= user
                 };
 
                 authorizationCodeCache.Set(authorizationCode, authorizationCodeContent);
@@ -65,11 +67,13 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
             if (authorizationCodeCache.TryGet(authorizationCode, out AuthorizationCodeContent authorizationCodeContent))
             {
                 //ok...sjekk på client_id?
-                  //Generer AccessToken..
-                 getTokenResponse.AccessToken = accessTokenGenerator.GetAccessToken();
+                //Generer AccessToken..
+                User user = authorizationCodeContent.User;
+
+                 getTokenResponse.AccessToken = accessTokenGenerator.GetAccessToken(user);
 
                 //Generer IdToken..
-                 getTokenResponse.IdToken = idTokenGenerator.GetIdToken();
+                 getTokenResponse.IdToken = idTokenGenerator.GetIdToken(user);
 
 
                 getTokenResponse.Expire = DateTime.Now.AddMinutes(5);

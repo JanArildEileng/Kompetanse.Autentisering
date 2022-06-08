@@ -15,6 +15,8 @@ builder.Services.AddSingleton<AuthorizationCodeCache>();
 builder.Services.AddSingleton<IdTokenGenerator>();
 builder.Services.AddSingleton<AccessTokenGenerator>();
 
+builder.Services.AddSingleton<UserRepoitory>();
+
 
 
 var app = builder.Build();
