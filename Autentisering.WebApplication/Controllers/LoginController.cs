@@ -23,7 +23,7 @@ public class LoginController : ControllerBase
     }
 
     [HttpPost(Name = "Login")]
-    public async Task<ActionResult> Login([FromServices] IIdentityAndAccessApiService identityService,[FromServices] TokenManger tokenManger, [FromServices] TokenValidetorService tokenValidetorService, string userName = "TestUSer", string password = "TestUSer")
+    public async Task<ActionResult> Login([FromServices] IIdentityAndAccessApiService identityService,[FromServices] TokenCacheManager tokenCacheManager, [FromServices] TokenValidetorService tokenValidetorService, string userName = "TestUSer", string password = "TestUSer")
     {
         string authorizationCode = await identityService.GetAuthorizationCode("1234", userName, password);
 
@@ -71,7 +71,7 @@ public class LoginController : ControllerBase
    
         if (!String.IsNullOrEmpty(getTokenResponse.AccessToken))
         {
-            tokenManger.SetToken(name, getTokenResponse.AccessToken, getTokenResponse.RefreshToken);
+            tokenCacheManager.SetToken(name, getTokenResponse.AccessToken, getTokenResponse.RefreshToken);
         }
 
         await HttpContext.SignInAsync(new ClaimsPrincipal(principal), authProperties);

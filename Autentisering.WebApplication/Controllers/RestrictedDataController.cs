@@ -17,7 +17,7 @@ public class RestrictedDataController : ControllerBase
     private readonly IRestrictedDataService restrictedDataService;
     private readonly IIdentityAndAccessApiService identityService;
 
-    public RestrictedDataController(ILogger<RestrictedDataController> logger, IRestrictedDataService restrictedDataService, TokenManger accessTokenManger)
+    public RestrictedDataController(ILogger<RestrictedDataController> logger, IRestrictedDataService restrictedDataService, TokenCacheManager accessTokenManger)
     {
         _logger = logger;
         this.restrictedDataService = restrictedDataService;
@@ -27,13 +27,13 @@ public class RestrictedDataController : ControllerBase
 
    
     [HttpGet(Name = "GetRestrictedData")]
-    public async Task<ActionResult<RestrictedData>> GetRestrictedData([FromServices]TokenManger tokenManger)
+    public async Task<ActionResult<RestrictedData>> GetRestrictedData([FromServices]TokenCacheManager tokenCacheManager)
     {
         var identity = this.HttpContext.User.Identities.First();
         var name = identity.Claims.Where(c => c.Type == ClaimTypes.Name).First().Value;
 
    
-        (string accessToken,_) = await tokenManger.GetToken(name);
+        (string accessToken,_) = await tokenCacheManager.GetToken(name);
 
         if ( string.IsNullOrEmpty(accessToken))
         {

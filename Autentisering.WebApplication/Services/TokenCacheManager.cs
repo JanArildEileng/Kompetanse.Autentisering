@@ -3,10 +3,10 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Autentisering.WebApplication.Services
 {
-    public class TokenManger
+    public class TokenCacheManager
     {
         const string TokenKey = "AccessToken";
-        private readonly ILogger<TokenManger> logger;
+        private readonly ILogger<TokenCacheManager> logger;
         private readonly IMemoryCache memoryCache;
         private readonly IIdentityAndAccessApiService identityService;
         MemoryCacheEntryOptions memoryCacheEntryOptions;
@@ -16,7 +16,7 @@ namespace Autentisering.WebApplication.Services
         private string RefreshKey(string username) => $"Refresh:{username}";
 
 
-        public TokenManger(ILogger<TokenManger> logger,IMemoryCache memoryCache)
+        public TokenCacheManager(ILogger<TokenCacheManager> logger,IMemoryCache memoryCache)
         {
             this.logger = logger;
             this.memoryCache = memoryCache;

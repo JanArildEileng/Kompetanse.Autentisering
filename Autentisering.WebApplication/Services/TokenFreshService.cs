@@ -4,18 +4,18 @@ namespace Autentisering.WebApplication.Services
 {
     public class TokenFreshService
     {
-        private readonly TokenManger tokenManger;
+        private readonly TokenCacheManager tokenCacheManager;
         private readonly IIdentityAndAccessApiService identityService;
 
-        public TokenFreshService(TokenManger tokenManger, IIdentityAndAccessApiService identityService)
+        public TokenFreshService(TokenCacheManager tokenCacheManager, IIdentityAndAccessApiService identityService)
         {
-            this.tokenManger = tokenManger;
+            this.tokenCacheManager = tokenCacheManager;
             this.identityService = identityService;
         }
 
         public async Task<(bool, string)> RefreshToken(string name)
         {
-            (string accessToken, string refreshToken) = await tokenManger.GetToken(name);
+            (string accessToken, string refreshToken) = await tokenCacheManager.GetToken(name);
 
             if (string.IsNullOrEmpty(accessToken))
             {
@@ -34,7 +34,7 @@ namespace Autentisering.WebApplication.Services
                 return (false, $" {name} unsuccessful Refresh");
             }
 
-            tokenManger.SetToken(name, getTokenResponse.AccessToken, getTokenResponse.RefreshToken);
+            tokenCacheManager.SetToken(name, getTokenResponse.AccessToken, getTokenResponse.RefreshToken);
 
             return (true, $" {name} successful Refresh Expire={getTokenResponse.Expire} ");
         }
