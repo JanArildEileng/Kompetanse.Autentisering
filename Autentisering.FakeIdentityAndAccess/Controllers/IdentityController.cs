@@ -27,110 +27,12 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
             return "Jan";
         }
 
-        //return authorization_code
-        [HttpGet("/Authorization/Code", Name = "GetAuthorizationCode")]
-        public string GetAuthorizationCode([FromServices] UserRepoitory userRepoitory,  string client_id="1234", string userName="test", string password="test")
-        {
-            string authorizationCode = String.Empty;
-
-            //sjekk user/pass, return valid authorization_code if ok
-            var user = userRepoitory.GetUser(userName);
-
-            if (user!=null)
-            {
-                authorizationCode = Guid.NewGuid().ToString();
-                //må lagre denn i MemoryCach
-                AuthorizationCodeContent authorizationCodeContent = new AuthorizationCodeContent()
-                {
-                    AuthorizationCode = authorizationCode,
-                    Client_id = client_id,
-                    User= user
-                };
-
-                authorizationCodeCache.Set(authorizationCode, authorizationCodeContent);
-            }
-                
-            
-            return authorizationCode;
-        }
-
 
     
        
 
 
-        [HttpGet("/Token", Name = "GetToken")]
-        public GetTokenResponse GetToken(string authorizationCode, [FromServices] AccessTokenGenerator accessTokenGenerator, [FromServices] IdTokenGenerator idTokenGenerator, [FromServices] RefreshTokenGenerator refreshTokenGenerator)
-        {
-            GetTokenResponse getTokenResponse = new(); 
-
-            string accessToken = String.Empty;
-
-            if (authorizationCodeCache.TryGet(authorizationCode, out AuthorizationCodeContent authorizationCodeContent))
-            {
-                //ok...sjekk på client_id?
-                //Generer AccessToken..
-                User user = authorizationCodeContent.User;
-
-                 getTokenResponse.AccessToken = accessTokenGenerator.GetAccessToken(user);
-
-                //Generer IdToken..
-                 getTokenResponse.IdToken = idTokenGenerator.GetIdToken(user);
-                //Generer FreshToken
-                getTokenResponse.RefreshToken = refreshTokenGenerator.GetFreshToken(user);
-
-
-                getTokenResponse.Expire = DateTime.Now.AddMinutes(5);
-            }
-            else
-            {
-
-
-            }
-
-            return getTokenResponse;
-        }
-
-
-
-        [HttpGet("/Token/Refresh", Name = "GetRefreshedTokens")]
-        public  ActionResult<GetTokenResponse> GetRefreshedTokens(string refreshToken ,[FromServices] AccessTokenGenerator accessTokenGenerator, [FromServices] RefreshTokenGenerator refreshTokenGenerator, [FromServices] RefreshTokenValidetor refreshTokenValidetor, [FromServices] UserRepoitory userRepoitory)
-        {
-            GetTokenResponse getTokenResponse = new();
-
-            string accessToken = String.Empty;
-
-            JwtSecurityToken jwtSecurityToken = refreshTokenValidetor.ReadValidateIdToken(refreshToken);
-
-            if (jwtSecurityToken == null)
-            {
-                  return BadRequest($"invalid refreshToken");
-            }
-
-            var claims = jwtSecurityToken.Claims.ToList();
-            var jti = claims.Where(e => e.Type == JwtRegisteredClaimNames.Jti).Select(e => e.Value).FirstOrDefault();
-
-
-            User user = userRepoitory.GetUser(Guid.Parse(jti));
-
-            if (user!=null)
-            {
-                //ok...sjekk på client_id?
-                //Generer AccessToken..
-                getTokenResponse.AccessToken = accessTokenGenerator.GetAccessToken(user);
-                getTokenResponse.RefreshToken = refreshTokenGenerator.GetFreshToken(user);
-
-                getTokenResponse.Expire = DateTime.Now.AddMinutes(5);
-            }
-            else
-            {
-                return BadRequest($"user not found");
-  
-            }
-
-            return Ok(getTokenResponse);
-        }
-
+      
 
 
         [HttpGet("/Userinfo", Name = "GetUserinfo")]

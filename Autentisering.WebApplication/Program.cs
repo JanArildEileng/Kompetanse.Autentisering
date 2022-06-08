@@ -17,7 +17,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMemoryCache();
 
 
-builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<IIdentityAndAccessApiService, IdentityAndAccessApiService>();
 builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
 builder.Services.AddScoped<IRestrictedDataService, RestrictedDataService>();
 
@@ -38,7 +38,7 @@ builder.Services.AddRefitClient<IRestrictedDataApi>()
         });
 
 
-builder.Services.AddRefitClient<IIdentityApi>()
+builder.Services.AddRefitClient<IIdentityAndAccessApi>()
         .ConfigureHttpClient(c =>
         {
             c.BaseAddress = new Uri("https://localhost:7134/");

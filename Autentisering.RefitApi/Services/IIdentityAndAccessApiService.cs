@@ -2,7 +2,7 @@
 
 namespace Autentisering.RefitApi.Services
 {
-    public interface IIdentityService
+    public interface IIdentityAndAccessApiService
     {
         Task<string> Login(string userName = "TestUSer", string password = "Password");
 

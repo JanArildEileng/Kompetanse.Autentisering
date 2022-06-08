@@ -15,7 +15,7 @@ public class RestrictedDataController : ControllerBase
 
     private readonly ILogger<RestrictedDataController> _logger;
     private readonly IRestrictedDataService restrictedDataService;
-    private readonly IIdentityService identityService;
+    private readonly IIdentityAndAccessApiService identityService;
 
     public RestrictedDataController(ILogger<RestrictedDataController> logger, IRestrictedDataService restrictedDataService, TokenManger accessTokenManger)
     {

@@ -16,9 +16,9 @@ public class LoginController : ControllerBase
 {
 
     private readonly ILogger<LoginController> _logger;
-    public IIdentityService identityService { get; }
+    public IIdentityAndAccessApiService identityService { get; }
 
-    public LoginController(ILogger<LoginController> logger, IIdentityService identityService)
+    public LoginController(ILogger<LoginController> logger, IIdentityAndAccessApiService identityService)
     {
         _logger = logger;
       

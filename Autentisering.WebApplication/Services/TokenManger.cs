@@ -8,7 +8,7 @@ namespace Autentisering.WebApplication.Services
         const string TokenKey = "AccessToken";
         private readonly ILogger<TokenManger> logger;
         private readonly IMemoryCache memoryCache;
-        private readonly IIdentityService identityService;
+        private readonly IIdentityAndAccessApiService identityService;
         MemoryCacheEntryOptions memoryCacheEntryOptions;
 
 

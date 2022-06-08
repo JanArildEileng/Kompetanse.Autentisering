@@ -7,10 +7,10 @@ using System.Text.Json;
 
 namespace Autentisering.RefitApi.Services;
 
-public class IdentityService : IIdentityService
+public class IdentityAndAccessApiService : IIdentityAndAccessApiService
 {
-    private readonly ILogger<IdentityService> logger;
-    private readonly IIdentityApi identityApi;
+    private readonly ILogger<IdentityAndAccessApiService> logger;
+    private readonly IIdentityAndAccessApi identityApi;
 
     JsonSerializerOptions options = new JsonSerializerOptions
     {
@@ -18,7 +18,7 @@ public class IdentityService : IIdentityService
     };
 
 
-    public IdentityService(ILogger<IdentityService> logger, IIdentityApi identityApi)
+    public IdentityAndAccessApiService(ILogger<IdentityAndAccessApiService> logger, IIdentityAndAccessApi identityApi)
     {
         this.logger = logger;
         this.identityApi = identityApi;
