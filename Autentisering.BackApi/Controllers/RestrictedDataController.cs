@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace Autentisering.BackApi.Controllers
+namespace Autentisering.BackendApi.Controllers
 {
 
     [Authorize]
@@ -25,9 +25,9 @@ namespace Autentisering.BackApi.Controllers
         [HttpGet(Name = "GetRestrictedData")]
         public async Task<RestrictedData> Get()
         {
-            JwtSecurityToken jwtSecurityToken= GetBearerToken();
+            JwtSecurityToken jwtSecurityToken = GetBearerToken();
 
-            var identity = this.HttpContext.User.Identities.First();
+            var identity = HttpContext.User.Identities.First();
             var name = identity.Claims.Where(e => e.Type == ClaimTypes.Name).Select(e => e.Value).FirstOrDefault();
             var jti = identity.Claims.Where(e => e.Type == JwtRegisteredClaimNames.Jti).Select(e => e.Value).FirstOrDefault();
 
@@ -47,7 +47,7 @@ namespace Autentisering.BackApi.Controllers
         {
             JwtSecurityToken jwtSecurityToken = null;
 
-            var bearerToken = this.HttpContext.Request.Headers["Authorization"].ToString();
+            var bearerToken = HttpContext.Request.Headers["Authorization"].ToString();
             try
             {
                 var handler = new JwtSecurityTokenHandler();

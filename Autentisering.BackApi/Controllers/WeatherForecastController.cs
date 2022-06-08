@@ -1,7 +1,7 @@
 using Autentisering.Shared;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Autentisering.BackApi.Controllers
+namespace Autentisering.BackendApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

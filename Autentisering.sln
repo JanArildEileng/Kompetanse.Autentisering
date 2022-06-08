@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autentisering.WebApplicatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autentisering.FakeIdentityAndAccess", "Autentisering.FakeIdentityAndAccess\Autentisering.FakeIdentityAndAccess.csproj", "{3D288CFD-8683-4684-9EED-773319467CC1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autentisering.BackApi", "Autentisering.BackApi\Autentisering.BackApi.csproj", "{369D8887-7F43-43EC-A0EA-D778495BB96D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autentisering.BackendApi", "Autentisering.BackApi\Autentisering.BackendApi.csproj", "{369D8887-7F43-43EC-A0EA-D778495BB96D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autentisering.Shared", "Autentisering.Shared\Autentisering.Shared.csproj", "{84CB3B14-EFCE-48E2-9F2A-48655CB9F272}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autentisering.RefitApi", "Autentisering.RefitApi\Autentisering.RefitApi.csproj", "{AB44795A-0058-491A-B4F2-81E8313BB6AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autentisering.RefitApi", "Autentisering.RefitApi\Autentisering.RefitApi.csproj", "{AB44795A-0058-491A-B4F2-81E8313BB6AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
