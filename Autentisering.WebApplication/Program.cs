@@ -2,6 +2,7 @@
 using Autentisering.RefitApi.Api;
 using Autentisering.RefitApi.Services;
 using Autentisering.WebApplication;
+using Autentisering.WebApplication.AppServices;
 using Autentisering.WebApplication.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Refit;
@@ -23,6 +24,10 @@ builder.Services.AddScoped<IBackendApiService, BackendApiService>();
 builder.Services.AddSingleton<TokenValidetorService>();
 builder.Services.AddSingleton<TokenCacheManager>();
 builder.Services.AddScoped<TokenFreshService>();
+builder.Services.AddScoped<LoginService>();
+
+
+
 
 builder.Services.AddRefitClient<IBackendApi>()
         .ConfigureHttpClient(c => 

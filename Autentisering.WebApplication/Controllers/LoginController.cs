@@ -1,4 +1,5 @@
 using Autentisering.RefitApi.Services;
+using Autentisering.WebApplication.AppServices;
 using Autentisering.WebApplication.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -21,42 +22,14 @@ public class LoginController : ControllerBase
     }
 
     [HttpPost(Name = "Login")]
-    public async Task<ActionResult> Login([FromServices] IIdentityAndAccessApiService identityService,[FromServices] TokenCacheManager tokenCacheManager, [FromServices] TokenValidetorService tokenValidetorService, string userName = "TestUSer", string password = "TestUSer")
+    public async Task<ActionResult> Login([FromServices] LoginService loginService , string userName = "TestUSer", string password = "TestUSer")
     {
-        string authorizationCode = await identityService.GetAuthorizationCode("1234", userName, password);
 
-        if (String.IsNullOrEmpty(authorizationCode))
-        {
-            return BadRequest($" Login {userName} not successful login (authorizationCode)");
-        }
+        (bool status, ClaimsPrincipal? claimsPrincipal, string text) = await loginService.Login(userName, password);
 
-        var getTokenResponse = await identityService.GetToken(authorizationCode);
+        if (!status)
+            return BadRequest(text);
 
-        if (String.IsNullOrEmpty(getTokenResponse.IdToken))
-        {
-            return BadRequest($" Login {userName} not successful login (idToken)");
-        }
-
-        JwtSecurityToken jwtSecurityToken = tokenValidetorService.ReadValidateIdToken(getTokenResponse.IdToken);
-
-        if (jwtSecurityToken == null)
-        {
-            return BadRequest($"Login {userName} not successful invalid jwtSecurityToken");
-        }
-
-        //hent ut info fra claims i JWT (idtoken)
-        var claims = jwtSecurityToken.Claims.ToList();
-        var name = claims.Where(e => e.Type == ClaimTypes.Name).Select(e => e.Value).FirstOrDefault();
-        var role = claims.Where(e => e.Type == ClaimTypes.Role).Select(e => e.Value).FirstOrDefault();
-        var jti = claims.Where(e => e.Type == JwtRegisteredClaimNames.Jti).Select(e => e.Value).FirstOrDefault();
-
-        //bygg opp ClaimsPrincipal for Cookie
-        ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-
-        identity.AddClaim(new Claim(ClaimTypes.Name, name));
-        identity.AddClaim(new Claim(ClaimTypes.Role, role));
-
-        var principal = new ClaimsPrincipal(identity);
 
         var authProperties = new AuthenticationProperties
         {
@@ -65,15 +38,9 @@ public class LoginController : ControllerBase
             IsPersistent = true,
         };
 
-   
-        if (!String.IsNullOrEmpty(getTokenResponse.AccessToken))
-        {
-            tokenCacheManager.SetToken(name, getTokenResponse.AccessToken, getTokenResponse.RefreshToken);
-        }
+        await HttpContext.SignInAsync(claimsPrincipal!, authProperties);
 
-        await HttpContext.SignInAsync(new ClaimsPrincipal(principal), authProperties);
-
-        return Ok($"{name} ({role})  successful login: jti={jti}");
+        return Ok(text);
     }
 
     [Authorize]

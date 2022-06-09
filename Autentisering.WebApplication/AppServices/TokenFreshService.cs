@@ -1,6 +1,7 @@
 ﻿using Autentisering.RefitApi.Services;
+using Autentisering.WebApplication.Services;
 
-namespace Autentisering.WebApplication.Services
+namespace Autentisering.WebApplication.AppServices
 {
     public class TokenFreshService
     {
