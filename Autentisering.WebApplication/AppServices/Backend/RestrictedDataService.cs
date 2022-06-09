@@ -2,7 +2,7 @@
 using Autentisering.Shared;
 using Autentisering.WebApplication.Services;
 
-namespace Autentisering.WebApplication.AppServices
+namespace Autentisering.WebApplication.AppServices.Backend
 {
     public class RestrictedDataService
     {
@@ -28,7 +28,7 @@ namespace Autentisering.WebApplication.AppServices
 
             logger.LogInformation("GetRestrictedData accessToken={accessToken}", accessToken);
 
-            RestrictedData restrictedData = await this.backendApiService.GetRestrictedData(accessToken);
+            RestrictedData restrictedData = await backendApiService.GetRestrictedData(accessToken);
             return (true, restrictedData, "");
         }
 

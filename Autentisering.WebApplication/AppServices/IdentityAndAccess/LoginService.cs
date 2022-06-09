@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace Autentisering.WebApplication.AppServices
+namespace Autentisering.WebApplication.AppServices.IdentityAndAccess
 {
     public class LoginService
     {
@@ -24,14 +24,14 @@ namespace Autentisering.WebApplication.AppServices
         {
             string authorizationCode = await identityService.GetAuthorizationCode("1234", userName, password);
 
-            if (String.IsNullOrEmpty(authorizationCode))
+            if (string.IsNullOrEmpty(authorizationCode))
             {
                 return (false, null, $" Login {userName} not successful login (authorizationCode)");
             }
 
             var getTokenResponse = await identityService.GetToken(authorizationCode);
 
-            if (String.IsNullOrEmpty(getTokenResponse.IdToken))
+            if (string.IsNullOrEmpty(getTokenResponse.IdToken))
             {
                 return (false, null, $" Login {userName} not successful login (idToken)");
             }
@@ -57,7 +57,7 @@ namespace Autentisering.WebApplication.AppServices
 
             var principal = new ClaimsPrincipal(identity);
 
-            if (!String.IsNullOrEmpty(getTokenResponse.AccessToken))
+            if (!string.IsNullOrEmpty(getTokenResponse.AccessToken))
             {
                 tokenCacheManager.SetToken(name, getTokenResponse.AccessToken, getTokenResponse.RefreshToken);
             }

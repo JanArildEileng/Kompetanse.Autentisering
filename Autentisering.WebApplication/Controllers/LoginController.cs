@@ -1,5 +1,5 @@
 using Autentisering.RefitApi.Services;
-using Autentisering.WebApplication.AppServices;
+using Autentisering.WebApplication.AppServices.IdentityAndAccess;
 using Autentisering.WebApplication.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
