@@ -1,6 +1,6 @@
 ﻿using Autentisering.Shared.Dto.IdentityAndAccess;
 
-namespace Autentisering.WebApplication.AppServices.Contracts
+namespace Autentisering.WebBFFApplication.AppServices.Contracts
 {
     public interface IIdentityAndAccessApiService
     {

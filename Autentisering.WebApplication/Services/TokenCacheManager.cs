@@ -1,7 +1,7 @@
-﻿using Autentisering.WebApplication.AppServices.Contracts;
+﻿using Autentisering.WebBFFApplication.AppServices.Contracts;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace Autentisering.WebApplication.Services
+namespace Autentisering.WebBFFApplication.Services
 {
     public class TokenCacheManager
     {
@@ -12,11 +12,11 @@ namespace Autentisering.WebApplication.Services
         MemoryCacheEntryOptions memoryCacheEntryOptions;
 
 
-        private  string Key(string username) => $"{TokenKey}:{username}";
+        private string Key(string username) => $"{TokenKey}:{username}";
         private string RefreshKey(string username) => $"Refresh:{username}";
 
 
-        public TokenCacheManager(ILogger<TokenCacheManager> logger,IMemoryCache memoryCache)
+        public TokenCacheManager(ILogger<TokenCacheManager> logger, IMemoryCache memoryCache)
         {
             this.logger = logger;
             this.memoryCache = memoryCache;
@@ -25,9 +25,9 @@ namespace Autentisering.WebApplication.Services
 
         }
 
-        public void SetToken(string username,string accessToken,string refreshToken)
+        public void SetToken(string username, string accessToken, string refreshToken)
         {
-  
+
             if (accessToken != null)
             {
                 logger.LogInformation("Add token to memoryCache");
@@ -43,11 +43,11 @@ namespace Autentisering.WebApplication.Services
 
         }
 
-        public async Task<(string,string)> GetToken(string username)
+        public async Task<(string, string)> GetToken(string username)
         {
             string accessToken;
             string refreshToken;
-            if (memoryCache.TryGetValue(Key, out  accessToken))
+            if (memoryCache.TryGetValue(Key, out accessToken))
             {
             }
             if (memoryCache.TryGetValue(RefreshKey, out refreshToken))

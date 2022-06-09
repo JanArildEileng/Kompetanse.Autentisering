@@ -1,11 +1,11 @@
-using Autentisering.WebApplication.AppServices.Features.IdentityAndAccess;
+using Autentisering.WebBFFApplication.AppServices.Features.IdentityAndAccess;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace Autentisering.WebApplication.Controllers;
+namespace Autentisering.WebBFFApplication.Controllers;
 
 [ApiController]
 [Route("[controller]")]
@@ -19,7 +19,7 @@ public class LoginController : ControllerBase
     }
 
     [HttpPost(Name = "Login")]
-    public async Task<ActionResult> Login([FromServices] LoginService loginService , string userName = "TestUSer", string password = "TestUSer")
+    public async Task<ActionResult> Login([FromServices] LoginService loginService, string userName = "TestUSer", string password = "TestUSer")
     {
 
         (bool status, ClaimsPrincipal? claimsPrincipal, string text) = await loginService.Login(userName, password);
@@ -65,7 +65,7 @@ public class LoginController : ControllerBase
 
     private string GetIdentityName()
     {
-        var identity = this.HttpContext.User.Identities.First();
+        var identity = HttpContext.User.Identities.First();
         var name = identity.Claims.Where(c => c.Type == ClaimTypes.Name).First().Value;
         return name;
     }

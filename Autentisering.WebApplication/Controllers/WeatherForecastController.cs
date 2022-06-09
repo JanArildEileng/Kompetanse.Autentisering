@@ -1,10 +1,9 @@
 using Autentisering.Shared.Dto.BackEnd;
-using Autentisering.WebApplication.AppServices.Contracts;
-using Autentisering.WebApplication.Services;
+using Autentisering.WebBFFApplication.AppServices.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace Autentisering.WebApplication.Controllers;
+namespace Autentisering.WebBFFApplication.Controllers;
 
 [ApiController]
 [Route("[controller]")]
@@ -26,8 +25,8 @@ public class WeatherForecastController : ControllerBase
     public async Task<ActionResult<IEnumerable<WeatherForecast>>> GetWeatherForecastHttpResponseMessage()
     {
 
-        var weatherForecast = await this.backendApiService.GetWeatherForecastHttpResponseMessage();
+        var weatherForecast = await backendApiService.GetWeatherForecastHttpResponseMessage();
         return Ok(weatherForecast);
-       
+
     }
 }

@@ -1,12 +1,12 @@
 ﻿using Autentisering.RefitApi;
 using Autentisering.Shared.Dto.IdentityAndAccess;
-using Autentisering.WebApplication.AppServices.Contracts;
+using Autentisering.WebBFFApplication.AppServices.Contracts;
 using Microsoft.Extensions.Logging;
 using Refit;
 using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace Autentisering.WebApplication.Infrastructure;
+namespace Autentisering.WebBFFApplication.Infrastructure;
 
 public class IdentityAndAccessApiService : IIdentityAndAccessApiService
 {

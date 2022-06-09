@@ -1,10 +1,10 @@
 
 using Autentisering.RefitApi;
-using Autentisering.WebApplication.AppServices.Contracts;
-using Autentisering.WebApplication.AppServices.Features.Backend;
-using Autentisering.WebApplication.AppServices.Features.IdentityAndAccess;
-using Autentisering.WebApplication.Infrastructure;
-using Autentisering.WebApplication.Services;
+using Autentisering.WebBFFApplication.AppServices.Contracts;
+using Autentisering.WebBFFApplication.AppServices.Features.Backend;
+using Autentisering.WebBFFApplication.AppServices.Features.IdentityAndAccess;
+using Autentisering.WebBFFApplication.Infrastructure;
+using Autentisering.WebBFFApplication.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Refit;
 

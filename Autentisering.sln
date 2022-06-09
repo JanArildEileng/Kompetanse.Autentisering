@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autentisering.WebApplication", "Autentisering.WebApplication\Autentisering.WebApplication.csproj", "{433A43DC-0FA6-406D-9FCC-51E8B0241E0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autentisering.WebBFFApplication", "Autentisering.WebApplication\Autentisering.WebBFFApplication.csproj", "{433A43DC-0FA6-406D-9FCC-51E8B0241E0B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autentisering.FakeIdentityAndAccess", "Autentisering.FakeIdentityAndAccess\Autentisering.FakeIdentityAndAccess.csproj", "{3D288CFD-8683-4684-9EED-773319467CC1}"
 EndProject

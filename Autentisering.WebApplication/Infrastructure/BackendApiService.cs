@@ -1,11 +1,11 @@
 ﻿using Autentisering.RefitApi;
 using Autentisering.Shared.Dto.BackEnd;
-using Autentisering.WebApplication.AppServices.Contracts;
+using Autentisering.WebBFFApplication.AppServices.Contracts;
 using Microsoft.Extensions.Logging;
 using Refit;
 using System.Net.Http.Json;
 
-namespace Autentisering.WebApplication.Infrastructure
+namespace Autentisering.WebBFFApplication.Infrastructure
 {
     public class BackendApiService : IBackendApiService
     {

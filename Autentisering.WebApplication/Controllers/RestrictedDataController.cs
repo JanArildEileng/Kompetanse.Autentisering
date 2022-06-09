@@ -1,10 +1,10 @@
 using Autentisering.Shared.Dto.BackEnd;
-using Autentisering.WebApplication.AppServices.Features.Backend;
+using Autentisering.WebBFFApplication.AppServices.Features.Backend;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace Autentisering.WebApplication.Controllers;
+namespace Autentisering.WebBFFApplication.Controllers;
 
 [Authorize]
 [ApiController]
@@ -17,20 +17,20 @@ public class RestrictedDataController : ControllerBase
     {
         _logger = logger;
     }
-   
+
     [HttpGet(Name = "GetRestrictedData")]
     public async Task<ActionResult<RestrictedData>> GetRestrictedData([FromServices] RestrictedDataService restrictedDataService)
     {
-        var identity = this.HttpContext.User.Identities.First();
+        var identity = HttpContext.User.Identities.First();
         var name = identity.Claims.Where(c => c.Type == ClaimTypes.Name).First().Value;
-   
-        (bool status, RestrictedData restrictedData,string text) = await restrictedDataService.GetRestrictedData(name);
 
-        if ( !status)
+        (bool status, RestrictedData restrictedData, string text) = await restrictedDataService.GetRestrictedData(name);
+
+        if (!status)
         {
             return BadRequest(text);
         }
-        
-         return Ok(restrictedData);
+
+        return Ok(restrictedData);
     }
 }
