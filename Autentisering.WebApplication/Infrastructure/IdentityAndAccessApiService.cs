@@ -1,9 +1,7 @@
 ﻿using Autentisering.RefitApi;
 using Autentisering.Shared.Dto.IdentityAndAccess;
 using Autentisering.WebBFFApplication.AppServices.Contracts;
-using Microsoft.Extensions.Logging;
 using Refit;
-using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace Autentisering.WebBFFApplication.Infrastructure;
@@ -18,7 +16,6 @@ public class IdentityAndAccessApiService : IIdentityAndAccessApiService
         PropertyNameCaseInsensitive = true
     };
 
-
     public IdentityAndAccessApiService(ILogger<IdentityAndAccessApiService> logger, IIdentityAndAccessApi identityApi)
     {
         this.logger = logger;
@@ -26,8 +23,7 @@ public class IdentityAndAccessApiService : IIdentityAndAccessApiService
     }
     public async Task<string> Login(string userName = "TestUSer", string password = "Password")
     {
-        var identityName = string.Empty;
-
+        string? identityName;
         try
         {
             var response = await identityApi.GetIdentityHttpResponseMessage(userName, password);
@@ -39,12 +35,10 @@ public class IdentityAndAccessApiService : IIdentityAndAccessApiService
             {
                 throw new Exception("Identity failed " + response.ReasonPhrase);
             }
-
         }
         catch (ApiException apiException)
         {
             logger.LogError(" ApiException {Message} ", apiException.Message);
-
             throw;
         }
         catch (Exception exp)
@@ -54,14 +48,12 @@ public class IdentityAndAccessApiService : IIdentityAndAccessApiService
         }
 
         return identityName;
-
     }
 
 
     public async Task<string> GetAuthorizationCode(string client_id, string userName, string password)
     {
-        var authorizationCode = string.Empty;
-
+        string? authorizationCode;
         try
         {
             var response = await identityApi.GetAuthorizationCode(client_id, userName, password);
@@ -73,12 +65,10 @@ public class IdentityAndAccessApiService : IIdentityAndAccessApiService
             {
                 throw new Exception("Identity failed " + response.ReasonPhrase);
             }
-
         }
         catch (ApiException apiException)
         {
             logger.LogError(" ApiException {Message} ", apiException.Message);
-
             throw;
         }
         catch (Exception exp)
@@ -88,18 +78,11 @@ public class IdentityAndAccessApiService : IIdentityAndAccessApiService
         }
 
         return authorizationCode;
-
     }
-
-
-
-
-
 
     public async Task<string> GetUserinfo(string AccessToken)
     {
-        var userinfo = string.Empty;
-
+        string? userinfo;
         try
         {
             var response = await identityApi.GetUserinfo(AccessToken);
@@ -111,12 +94,10 @@ public class IdentityAndAccessApiService : IIdentityAndAccessApiService
             {
                 throw new Exception("Identity failed " + response.ReasonPhrase);
             }
-
         }
         catch (ApiException apiException)
         {
             logger.LogError(" ApiException {Message} ", apiException.Message);
-
             throw;
         }
         catch (Exception exp)
@@ -126,13 +107,11 @@ public class IdentityAndAccessApiService : IIdentityAndAccessApiService
         }
 
         return userinfo;
-
     }
 
     public async Task<GetTokenResponse> GetToken(string authorizationCode)
     {
-        GetTokenResponse getTokenResponse = null;
-
+        GetTokenResponse getTokenResponse;
         try
         {
             var response = await identityApi.GetToken(authorizationCode);
@@ -144,12 +123,10 @@ public class IdentityAndAccessApiService : IIdentityAndAccessApiService
             {
                 throw new Exception("Identity failed " + response.ReasonPhrase);
             }
-
         }
         catch (ApiException apiException)
         {
             logger.LogError(" ApiException {Message} ", apiException.Message);
-
             throw;
         }
         catch (Exception exp)
@@ -161,12 +138,9 @@ public class IdentityAndAccessApiService : IIdentityAndAccessApiService
         return getTokenResponse;
     }
 
-
-
     public async Task<GetTokenResponse> GetRefreshedTokens(string refreshToken)
     {
-        GetTokenResponse getTokenResponse = null;
-
+        GetTokenResponse getTokenResponse;
         try
         {
             var response = await identityApi.GetRefreshedTokens(refreshToken);
@@ -178,12 +152,10 @@ public class IdentityAndAccessApiService : IIdentityAndAccessApiService
             {
                 throw new Exception("Identity failed " + response.ReasonPhrase);
             }
-
         }
         catch (ApiException apiException)
         {
             logger.LogError(" ApiException {Message} ", apiException.Message);
-
             throw;
         }
         catch (Exception exp)
