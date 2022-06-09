@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
-using Autentisering.Shared.BackEnd;
+using Autentisering.Shared.Dto.BackEnd;
 
 namespace Autentisering.BackendApi.Controllers
 {

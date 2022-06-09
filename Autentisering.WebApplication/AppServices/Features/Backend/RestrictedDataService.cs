@@ -1,4 +1,4 @@
-﻿using Autentisering.Shared.BackEnd;
+﻿using Autentisering.Shared.Dto.BackEnd;
 using Autentisering.WebApplication.AppServices.Contracts;
 using Autentisering.WebApplication.Services;
 

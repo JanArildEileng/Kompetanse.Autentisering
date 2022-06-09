@@ -1,5 +1,5 @@
 ﻿using Autentisering.RefitApi;
-using Autentisering.Shared.IdentityAndAccess;
+using Autentisering.Shared.Dto.IdentityAndAccess;
 using Autentisering.WebApplication.AppServices.Contracts;
 using Microsoft.Extensions.Logging;
 using Refit;

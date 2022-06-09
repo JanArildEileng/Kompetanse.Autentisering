@@ -12,7 +12,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\Autentisering.Shared\Autentisering.Shared.csproj" />
+    <ProjectReference Include="..\Autentisering.Shared\Autentisering.Shared.Dto.csproj" />
   </ItemGroup>
 
 </Project>
