@@ -1,4 +1,4 @@
-namespace Autentisering.Shared
+namespace Autentisering.Shared.BackEnd
 {
     public class WeatherForecast
     {

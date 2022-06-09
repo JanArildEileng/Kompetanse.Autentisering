@@ -1,8 +1,8 @@
-using Autentisering.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using Autentisering.Shared.BackEnd;
 
 namespace Autentisering.BackendApi.Controllers
 {

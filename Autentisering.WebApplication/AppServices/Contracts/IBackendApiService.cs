@@ -1,4 +1,4 @@
-﻿using Autentisering.Shared;
+﻿using Autentisering.Shared.BackEnd;
 
 namespace Autentisering.WebApplication.AppServices.Contracts
 {
