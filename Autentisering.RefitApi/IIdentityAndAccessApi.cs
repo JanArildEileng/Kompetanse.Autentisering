@@ -1,6 +1,6 @@
 ﻿using Refit;
 
-namespace Autentisering.RefitApi.Api;
+namespace Autentisering.RefitApi;
 
 public interface IIdentityAndAccessApi
 {

@@ -1,4 +1,4 @@
-﻿using Autentisering.RefitApi.Api;
+﻿using Autentisering.RefitApi;
 using Autentisering.Shared.IdentityAndAccess;
 using Autentisering.WebApplication.AppServices.Contracts;
 using Microsoft.Extensions.Logging;

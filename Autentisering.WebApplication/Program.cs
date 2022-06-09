@@ -1,6 +1,5 @@
 
-using Autentisering.RefitApi.Api;
-using Autentisering.WebApplication;
+using Autentisering.RefitApi;
 using Autentisering.WebApplication.AppServices.Contracts;
 using Autentisering.WebApplication.AppServices.Features.Backend;
 using Autentisering.WebApplication.AppServices.Features.IdentityAndAccess;
