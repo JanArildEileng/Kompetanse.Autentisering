@@ -25,6 +25,9 @@ builder.Services.AddSingleton<TokenValidetorService>();
 builder.Services.AddSingleton<TokenCacheManager>();
 builder.Services.AddScoped<TokenFreshService>();
 builder.Services.AddScoped<LoginService>();
+builder.Services.AddScoped<RestrictedDataService>();
+
+
 
 
 

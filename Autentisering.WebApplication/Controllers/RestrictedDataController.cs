@@ -1,6 +1,5 @@
-using Autentisering.RefitApi.Services;
 using Autentisering.Shared;
-using Autentisering.WebApplication.Services;
+using Autentisering.WebApplication.AppServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -12,37 +11,26 @@ namespace Autentisering.WebApplication.Controllers;
 [Route("[controller]")]
 public class RestrictedDataController : ControllerBase
 {
-
     private readonly ILogger<RestrictedDataController> _logger;
-    private readonly IBackendApiService restrictedDataService;
-    private readonly IIdentityAndAccessApiService identityService;
 
-    public RestrictedDataController(ILogger<RestrictedDataController> logger, IBackendApiService restrictedDataService, TokenCacheManager accessTokenManger)
+    public RestrictedDataController(ILogger<RestrictedDataController> logger)
     {
         _logger = logger;
-        this.restrictedDataService = restrictedDataService;
-        this.identityService = identityService;
     }
-
-
    
     [HttpGet(Name = "GetRestrictedData")]
-    public async Task<ActionResult<RestrictedData>> GetRestrictedData([FromServices]TokenCacheManager tokenCacheManager)
+    public async Task<ActionResult<RestrictedData>> GetRestrictedData([FromServices] RestrictedDataService restrictedDataService)
     {
         var identity = this.HttpContext.User.Identities.First();
         var name = identity.Claims.Where(c => c.Type == ClaimTypes.Name).First().Value;
-
    
-        (string accessToken,_) = await tokenCacheManager.GetToken(name);
+        (bool status, RestrictedData restrictedData,string text) = await restrictedDataService.GetRestrictedData(name);
 
-        if ( string.IsNullOrEmpty(accessToken))
+        if ( !status)
         {
-            return BadRequest("Mangler accesstoken");
+            return BadRequest(text);
         }
         
-        _logger.LogInformation("GetRestrictedData accessToken={accessToken}", accessToken);
-    
-        RestrictedData restrictedData = await this.restrictedDataService.GetRestrictedData(accessToken);
-        return Ok(restrictedData);
+         return Ok(restrictedData);
     }
 }
