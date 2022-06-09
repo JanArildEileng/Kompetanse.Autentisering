@@ -1,11 +1,12 @@
 ﻿using Autentisering.RefitApi.Api;
 using Autentisering.Shared.IdentityAndAccess;
+using Autentisering.WebApplication.AppServices.Contracts;
 using Microsoft.Extensions.Logging;
 using Refit;
 using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace Autentisering.RefitApi.Services;
+namespace Autentisering.WebApplication.Infrastructure;
 
 public class IdentityAndAccessApiService : IIdentityAndAccessApiService
 {
@@ -91,9 +92,9 @@ public class IdentityAndAccessApiService : IIdentityAndAccessApiService
     }
 
 
-   
 
-  
+
+
 
     public async Task<string> GetUserinfo(string AccessToken)
     {
@@ -130,7 +131,7 @@ public class IdentityAndAccessApiService : IIdentityAndAccessApiService
 
     public async Task<GetTokenResponse> GetToken(string authorizationCode)
     {
-        GetTokenResponse getTokenResponse =null;
+        GetTokenResponse getTokenResponse = null;
 
         try
         {

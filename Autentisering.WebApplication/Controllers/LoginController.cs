@@ -1,11 +1,8 @@
-using Autentisering.RefitApi.Services;
 using Autentisering.WebApplication.AppServices.Features.IdentityAndAccess;
-using Autentisering.WebApplication.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace Autentisering.WebApplication.Controllers;

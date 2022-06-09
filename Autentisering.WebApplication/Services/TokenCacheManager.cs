@@ -1,4 +1,4 @@
-﻿using Autentisering.RefitApi.Services;
+﻿using Autentisering.WebApplication.AppServices.Contracts;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Autentisering.WebApplication.Services

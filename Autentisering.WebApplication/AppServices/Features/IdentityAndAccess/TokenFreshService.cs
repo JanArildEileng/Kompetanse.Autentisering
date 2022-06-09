@@ -1,4 +1,4 @@
-﻿using Autentisering.RefitApi.Services;
+﻿using Autentisering.WebApplication.AppServices.Contracts;
 using Autentisering.WebApplication.Services;
 
 namespace Autentisering.WebApplication.AppServices.Features.IdentityAndAccess

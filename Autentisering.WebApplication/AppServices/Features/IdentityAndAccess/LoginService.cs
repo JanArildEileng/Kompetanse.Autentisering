@@ -1,4 +1,4 @@
-﻿using Autentisering.RefitApi.Services;
+﻿using Autentisering.WebApplication.AppServices.Contracts;
 using Autentisering.WebApplication.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;

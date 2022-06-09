@@ -1,5 +1,5 @@
-﻿using Autentisering.RefitApi.Services;
-using Autentisering.Shared;
+﻿using Autentisering.Shared;
+using Autentisering.WebApplication.AppServices.Contracts;
 using Autentisering.WebApplication.Services;
 
 namespace Autentisering.WebApplication.AppServices.Features.Backend

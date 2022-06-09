@@ -1,6 +1,6 @@
 ﻿using Autentisering.Shared;
 
-namespace Autentisering.RefitApi.Services
+namespace Autentisering.WebApplication.AppServices.Contracts
 {
     public interface IBackendApiService
     {
