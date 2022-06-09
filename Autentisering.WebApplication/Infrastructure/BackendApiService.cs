@@ -1,10 +1,9 @@
-﻿using Autentisering.RefitApi.Api;
-using Autentisering.Shared;
-using Microsoft.Extensions.Logging;
+﻿using Autentisering.RefitApi;
+using Autentisering.Shared.Dto.BackEnd;
+using Autentisering.WebBFFApplication.AppServices.Contracts;
 using Refit;
-using System.Net.Http.Json;
 
-namespace Autentisering.RefitApi.Services
+namespace Autentisering.WebBFFApplication.Infrastructure
 {
     public class BackendApiService : IBackendApiService
     {
@@ -17,17 +16,13 @@ namespace Autentisering.RefitApi.Services
             this.backendApi = backendApi;
         }
 
-
-
         public async Task<RestrictedData> GetRestrictedData(string AccessToken)
         {
-
             try
             {
                 var response = await backendApi.GetRestrictedData(AccessToken);
                 if (response.IsSuccessStatusCode)
                 {
-
                     var restrictedData = await response.Content.ReadFromJsonAsync<RestrictedData>();
                     return restrictedData;
                 }
@@ -53,7 +48,6 @@ namespace Autentisering.RefitApi.Services
                 var response = await backendApi.GetWeatherForecastHttpResponseMessage();
                 if (response.IsSuccessStatusCode)
                 {
-
                     var weather = await response.Content.ReadFromJsonAsync<IEnumerable<WeatherForecast>>();
                     return weather;
                 }
@@ -62,7 +56,6 @@ namespace Autentisering.RefitApi.Services
             catch (ApiException apiException)
             {
                 logger.LogError(" ApiException {Message} ", apiException.Message);
-
                 throw;
             }
             catch (Exception exp)

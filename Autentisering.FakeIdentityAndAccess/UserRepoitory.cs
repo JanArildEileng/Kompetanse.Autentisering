@@ -1,9 +1,9 @@
-﻿using Autentisering.Shared.IdentityAndAccess;
+﻿using Autentisering.Shared.Dto.IdentityAndAccess;
 
 namespace Autentisering.FakeIdentityAndAccess
 {
 
-   
+
 
     public class UserRepoitory
     {

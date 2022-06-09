@@ -1,6 +1,6 @@
-﻿using Autentisering.Shared.IdentityAndAccess;
+﻿using Autentisering.Shared.Dto.IdentityAndAccess;
 
-namespace Autentisering.RefitApi.Services
+namespace Autentisering.WebBFFApplication.AppServices.Contracts
 {
     public interface IIdentityAndAccessApiService
     {
@@ -8,7 +8,7 @@ namespace Autentisering.RefitApi.Services
 
         Task<string> GetAuthorizationCode(string client_id, string userName, string password);
 
-  
+
         Task<GetTokenResponse> GetToken(string authorizationCode);
         Task<GetTokenResponse> GetRefreshedTokens(string refreshToken);
 

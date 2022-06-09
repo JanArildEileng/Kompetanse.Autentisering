@@ -3,7 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Autentisering.WebApplication.Services
+namespace Autentisering.WebBFFApplication.Services
 {
     public class TokenValidetorService
     {
@@ -11,7 +11,7 @@ namespace Autentisering.WebApplication.Services
 
         public TokenValidetorService(IConfiguration configuration)
         {
-            this._config = configuration;
+            _config = configuration;
         }
 
         public JwtSecurityToken ReadValidateIdToken(string token)
@@ -30,7 +30,7 @@ namespace Autentisering.WebApplication.Services
             try
             {
                 var handler = new JwtSecurityTokenHandler();
-                ClaimsPrincipal principal = handler.ValidateToken(token, tokenValidationParameters,out SecurityToken securityToken);
+                ClaimsPrincipal principal = handler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
                 var jwtSecurityToken = handler.ReadJwtToken(token);
                 return jwtSecurityToken;
             }

@@ -1,6 +1,7 @@
-﻿using Autentisering.RefitApi.Services;
+﻿using Autentisering.WebBFFApplication.AppServices.Contracts;
+using Autentisering.WebBFFApplication.Services;
 
-namespace Autentisering.WebApplication.Services
+namespace Autentisering.WebBFFApplication.AppServices.Features.IdentityAndAccess
 {
     public class TokenFreshService
     {

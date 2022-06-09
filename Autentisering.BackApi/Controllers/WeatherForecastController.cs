@@ -1,4 +1,4 @@
-using Autentisering.Shared;
+using Autentisering.Shared.Dto.BackEnd;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Autentisering.BackendApi.Controllers
