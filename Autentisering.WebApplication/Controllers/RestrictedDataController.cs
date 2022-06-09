@@ -1,5 +1,5 @@
 using Autentisering.Shared;
-using Autentisering.WebApplication.AppServices.Backend;
+using Autentisering.WebApplication.AppServices.Features.Backend;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;

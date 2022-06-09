@@ -2,7 +2,7 @@
 using Autentisering.Shared;
 using Autentisering.WebApplication.Services;
 
-namespace Autentisering.WebApplication.AppServices.Backend
+namespace Autentisering.WebApplication.AppServices.Features.Backend
 {
     public class RestrictedDataService
     {

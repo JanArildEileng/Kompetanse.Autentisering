@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace Autentisering.WebApplication.AppServices.IdentityAndAccess
+namespace Autentisering.WebApplication.AppServices.Features.IdentityAndAccess
 {
     public class LoginService
     {
