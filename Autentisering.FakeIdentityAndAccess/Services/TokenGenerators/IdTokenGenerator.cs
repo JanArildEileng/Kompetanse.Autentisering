@@ -4,18 +4,18 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Autentisering.FakeIdentityAndAccess.TokenGenerators;
+namespace Autentisering.FakeIdentityAndAccess.Services.TokenGenerators;
 
-public class AccessTokenGenerator
+public class IdTokenGenerator
 {
     private readonly IConfiguration _config;
 
-    public AccessTokenGenerator(IConfiguration configuration)
+    public IdTokenGenerator(IConfiguration configuration)
     {
-        this._config = configuration;
+        _config = configuration;
     }
 
-    public string GetAccessToken(User user)
+    public string GetIdToken(User user)
     {
         string JWTToken = BuildJWTToken(user);
         return JWTToken;
@@ -23,20 +23,22 @@ public class AccessTokenGenerator
 
     private string BuildJWTToken(User user)
     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["AccessJwtToken:SecretKey"]));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["IdJwtToken:SecretKey"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var issuer = _config["AccessJwtToken:Issuer"];
-        var audience = _config["AccessJwtToken:Audience"];
-        var jwtValidity = DateTime.Now.AddMinutes(Convert.ToDouble(_config["AccessJwtToken:TokenExpiry"]));
+        var issuer = _config["IdJwtToken:Issuer"];
+        var audience = _config["IdJwtToken:Audience"];
+        var jwtValidity = DateTime.Now.AddMinutes(Convert.ToDouble(_config["IdJwtToken:TokenExpiry"]));
 
         var authClaims = new List<Claim> {
             new Claim(ClaimTypes.Name, user.Name),
-            new Claim(JwtRegisteredClaimNames.Jti, user.Guid.ToString()),
+            new Claim(ClaimTypes.Role,user.Role.ToString()),
+            new Claim(JwtRegisteredClaimNames.Jti,user.Guid.ToString()),
         };
 
         var token = new JwtSecurityToken(issuer,
           audience,
           authClaims,
+
           expires: jwtValidity,
           signingCredentials: creds);
 

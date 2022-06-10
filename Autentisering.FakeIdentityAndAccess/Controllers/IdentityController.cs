@@ -1,8 +1,6 @@
-using Autentisering.FakeIdentityAndAccess.TokenGenerators;
+using Autentisering.FakeIdentityAndAccess.AppServices.Contracts;
 using Autentisering.Shared.Dto.IdentityAndAccess;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace Autentisering.FakeIdentityAndAccess.Controllers
 {
@@ -21,14 +19,14 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
         }
 
         [HttpGet(Name = "GetIdentity")]
-        public User GetIdentity(string jti, [FromServices] UserRepoitory userRepoitory)
+        public User GetIdentity(string jti, [FromServices] IUserRepoitory userRepoitory)
         {
             User user = userRepoitory.GetUser(Guid.Parse(jti));
             return user;
         }
 
         [HttpGet("All", Name = "GetAllIdentity")]
-        public List<User> GetAllIdentity([FromServices] UserRepoitory userRepoitory)
+        public List<User> GetAllIdentity([FromServices] IUserRepoitory userRepoitory)
         {
             var users = userRepoitory.GetAllUser();
             return users;

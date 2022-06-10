@@ -1,11 +1,12 @@
-﻿using Autentisering.Shared.Dto.IdentityAndAccess;
+﻿using Autentisering.FakeIdentityAndAccess.AppServices.Contracts;
+using Autentisering.Shared.Dto.IdentityAndAccess;
 
-namespace Autentisering.FakeIdentityAndAccess
+namespace Autentisering.FakeIdentityAndAccess.Infrastructure
 {
 
 
 
-    public class UserRepoitory
+    public class UserRepoitory : IUserRepoitory
     {
         static List<User> users = new List<User>()
         {
@@ -36,7 +37,7 @@ namespace Autentisering.FakeIdentityAndAccess
             return users.Where(e => e.Guid == guid).FirstOrDefault();
         }
 
-        internal List<User> GetAllUser()
+        public List<User> GetAllUser()
         {
             return users;
         }

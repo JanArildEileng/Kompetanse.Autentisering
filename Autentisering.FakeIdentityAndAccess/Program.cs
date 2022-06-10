@@ -1,5 +1,7 @@
 using Autentisering.FakeIdentityAndAccess;
-using Autentisering.FakeIdentityAndAccess.TokenGenerators;
+using Autentisering.FakeIdentityAndAccess.AppServices.Contracts;
+using Autentisering.FakeIdentityAndAccess.Infrastructure;
+using Autentisering.FakeIdentityAndAccess.Services.TokenGenerators;
 using Common.TokenUtils;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -35,7 +37,7 @@ builder.Services.AddSingleton<TokenValidetorService>(x => {
     return ActivatorUtilities.CreateInstance<TokenValidetorService>(x, tokenValidationParameters);
 });
 
-builder.Services.AddSingleton<UserRepoitory>();
+builder.Services.AddSingleton<IUserRepoitory,UserRepoitory>();
 
 var app = builder.Build();
 

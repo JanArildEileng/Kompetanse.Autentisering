@@ -1,4 +1,5 @@
-using Autentisering.FakeIdentityAndAccess.TokenGenerators;
+using Autentisering.FakeIdentityAndAccess.Infrastructure;
+using Autentisering.FakeIdentityAndAccess.Services.TokenGenerators;
 using Autentisering.Shared.Dto.IdentityAndAccess;
 using Common.TokenUtils;
 using Microsoft.AspNetCore.Mvc;

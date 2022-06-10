@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Autentisering.FakeIdentityAndAccess.TokenGenerators;
+namespace Autentisering.FakeIdentityAndAccess.Services.TokenGenerators;
 
 public class RefreshTokenGenerator
 {
@@ -12,7 +12,7 @@ public class RefreshTokenGenerator
 
     public RefreshTokenGenerator(IConfiguration configuration)
     {
-        this._config = configuration;
+        _config = configuration;
     }
 
     public string GetFreshToken(User user)
@@ -27,7 +27,7 @@ public class RefreshTokenGenerator
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var issuer = _config["RefreshJwtToken:Issuer"];
         var audience = _config["RefreshJwtToken:Audience"];
-       
+
         var jwtValidity = DateTime.Now.AddMinutes(Convert.ToDouble(_config["RefreshJwtToken:TokenExpiry"]));
 
         var authClaims = new List<Claim> {

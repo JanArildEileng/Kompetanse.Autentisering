@@ -1,3 +1,4 @@
+using Autentisering.FakeIdentityAndAccess.AppServices.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Autentisering.FakeIdentityAndAccess.Controllers
@@ -18,7 +19,7 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
 
         //return authorization_code
         [HttpGet("", Name = "GetAuthorizationCode")]
-        public string GetAuthorizationCode([FromServices] UserRepoitory userRepoitory,  string client_id="1234", string userName="test", string password="test")
+        public string GetAuthorizationCode([FromServices] IUserRepoitory userRepoitory,  string client_id="1234", string userName="test", string password="test")
         {
             string authorizationCode = String.Empty;
 
