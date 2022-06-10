@@ -12,14 +12,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<AuthorizationCodeCache>();
 
 builder.Services.AddSingleton<IdTokenGenerator>();
 builder.Services.AddSingleton<AccessTokenGenerator>();
 builder.Services.AddSingleton<RefreshTokenGenerator>();
-
-
 
 builder.Services.AddSingleton<TokenValidetorService>(x => {
 
@@ -37,13 +35,7 @@ builder.Services.AddSingleton<TokenValidetorService>(x => {
     return ActivatorUtilities.CreateInstance<TokenValidetorService>(x, tokenValidationParameters);
 });
 
-
-
-
-
 builder.Services.AddSingleton<UserRepoitory>();
-
-
 
 var app = builder.Build();
 

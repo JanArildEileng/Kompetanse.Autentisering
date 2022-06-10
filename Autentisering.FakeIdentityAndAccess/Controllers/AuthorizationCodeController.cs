@@ -10,7 +10,7 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
 
         public AuthorizationCodeCache authorizationCodeCache { get; }
 
-        public AuthorizationCodeController(ILogger<AuthorizationCodeController> logger, AuthorizationCodeCache authorizationCodeCache)
+        public AuthorizationCodeController(ILogger<AuthorizationCodeController> logger, [FromServices] AuthorizationCodeCache authorizationCodeCache)
         {
             _logger = logger;
             this.authorizationCodeCache = authorizationCodeCache;

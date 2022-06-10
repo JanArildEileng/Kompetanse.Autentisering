@@ -1,34 +1,26 @@
-﻿
-using Microsoft.Extensions.Caching.Memory;
-
+﻿using Microsoft.Extensions.Caching.Memory;
 
 namespace Autentisering.FakeIdentityAndAccess;
 
 public class AuthorizationCodeCache
 {
-    private MemoryCache cache { get; set; }
+    private IMemoryCache memoryCache { get; set; }
     private MemoryCacheEntryOptions cacheEntryOptions;
 
-    public AuthorizationCodeCache()
+    public AuthorizationCodeCache(IMemoryCache memoryCache)
     {
         cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetAbsoluteExpiration(DateTime.Now.AddMinutes(5)); 
-
-        cache = new MemoryCache(new MemoryCacheOptions
-        {
-        });
+            .SetAbsoluteExpiration(DateTime.Now.AddMinutes(5));
+        this.memoryCache = memoryCache;
     }
 
     public void Set(string authorizationCode, AuthorizationCodeContent authorizationCodeContent)
     {
-        cache.Set(authorizationCode, authorizationCodeContent, this.cacheEntryOptions);
+        memoryCache.Set(authorizationCode, authorizationCodeContent, this.cacheEntryOptions);
     }
 
     public bool TryGet(string authorizationCode, out AuthorizationCodeContent authorizationCodeContent)
     {
-        return cache.TryGetValue(authorizationCode, out authorizationCodeContent);
+        return memoryCache.TryGetValue(authorizationCode, out authorizationCodeContent);
     }
-
-
-
 }
