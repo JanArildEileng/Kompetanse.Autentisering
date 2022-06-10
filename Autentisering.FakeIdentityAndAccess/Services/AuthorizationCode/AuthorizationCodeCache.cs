@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 
-namespace Autentisering.FakeIdentityAndAccess.Services.AuthorizationCode;
+namespace Authorization.FakeIdentityAndAccess.Services.AuthorizationCode;
 
 public class AuthorizationCodeCache
 {

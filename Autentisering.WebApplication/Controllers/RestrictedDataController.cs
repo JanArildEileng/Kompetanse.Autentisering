@@ -1,10 +1,10 @@
-using Autentisering.Shared.Dto.BackEnd;
-using Autentisering.WebBFFApplication.AppServices.Features.Backend;
+using Authorization.Shared.Dto.BackEnd;
+using Authorization.WebBFFApplication.AppServices.Features.Backend;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace Autentisering.WebBFFApplication.Controllers;
+namespace Authorization.WebBFFApplication.Controllers;
 
 [Authorize]
 [ApiController]

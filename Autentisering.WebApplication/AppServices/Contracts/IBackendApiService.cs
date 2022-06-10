@@ -1,6 +1,6 @@
-﻿using Autentisering.Shared.Dto.BackEnd;
+﻿using Authorization.Shared.Dto.BackEnd;
 
-namespace Autentisering.WebBFFApplication.AppServices.Contracts
+namespace Authorization.WebBFFApplication.AppServices.Contracts
 {
     public interface IBackendApiService
     {

@@ -1,9 +1,9 @@
-﻿using Autentisering.RefitApi;
-using Autentisering.Shared.Dto.BackEnd;
-using Autentisering.WebBFFApplication.AppServices.Contracts;
+﻿using Authorization.RefitApi;
+using Authorization.Shared.Dto.BackEnd;
+using Authorization.WebBFFApplication.AppServices.Contracts;
 using Refit;
 
-namespace Autentisering.WebBFFApplication.Infrastructure
+namespace Authorization.WebBFFApplication.Infrastructure
 {
     public class BackendApiService : IBackendApiService
     {

@@ -1,9 +1,9 @@
-using Autentisering.Shared.Dto.BackEnd;
-using Autentisering.WebBFFApplication.AppServices.Contracts;
+using Authorization.Shared.Dto.BackEnd;
+using Authorization.WebBFFApplication.AppServices.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace Autentisering.WebBFFApplication.Controllers;
+namespace Authorization.WebBFFApplication.Controllers;
 
 [ApiController]
 [Route("[controller]")]

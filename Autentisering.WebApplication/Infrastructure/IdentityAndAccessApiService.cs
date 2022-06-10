@@ -1,10 +1,10 @@
-﻿using Autentisering.RefitApi;
-using Autentisering.Shared.Dto.IdentityAndAccess;
-using Autentisering.WebBFFApplication.AppServices.Contracts;
+﻿using Authorization.RefitApi;
+using Authorization.Shared.Dto.IdentityAndAccess;
+using Authorization.WebBFFApplication.AppServices.Contracts;
 using Refit;
 using System.Text.Json;
 
-namespace Autentisering.WebBFFApplication.Infrastructure;
+namespace Authorization.WebBFFApplication.Infrastructure;
 
 public class IdentityAndAccessApiService : IIdentityAndAccessApiService
 {

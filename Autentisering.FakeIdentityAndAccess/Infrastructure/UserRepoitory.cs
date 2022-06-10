@@ -1,7 +1,7 @@
-﻿using Autentisering.FakeIdentityAndAccess.AppServices.Contracts;
-using Autentisering.Shared.Dto.IdentityAndAccess;
+﻿using Authorization.FakeIdentityAndAccess.AppServices.Contracts;
+using Authorization.Shared.Dto.IdentityAndAccess;
 
-namespace Autentisering.FakeIdentityAndAccess.Infrastructure
+namespace Authorization.FakeIdentityAndAccess.Infrastructure
 {
 
 

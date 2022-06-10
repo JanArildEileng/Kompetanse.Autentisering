@@ -1,4 +1,4 @@
-﻿namespace Autentisering.Shared.Dto.IdentityAndAccess;
+﻿namespace Authorization.Shared.Dto.IdentityAndAccess;
 public enum Roletype
 {
     Basic, Cat, Master, Super

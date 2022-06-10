@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Autentisering.RefitApi\Autentisering.RefitApi.csproj" />
-    <ProjectReference Include="..\Autentisering.Shared\Autentisering.Shared.Dto.csproj" />
+    <ProjectReference Include="..\Autentisering.RefitApi\Authorization.RefitApi.csproj" />
+    <ProjectReference Include="..\Autentisering.Shared\Authorization.Shared.Dto.csproj" />
     <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
 

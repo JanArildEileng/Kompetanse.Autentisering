@@ -1,7 +1,7 @@
-using Autentisering.FakeIdentityAndAccess.AppServices.Contracts;
-using Autentisering.FakeIdentityAndAccess.Infrastructure;
-using Autentisering.FakeIdentityAndAccess.Services.AuthorizationCode;
-using Autentisering.FakeIdentityAndAccess.Services.TokenGenerators;
+using Authorization.FakeIdentityAndAccess.AppServices.Contracts;
+using Authorization.FakeIdentityAndAccess.Infrastructure;
+using Authorization.FakeIdentityAndAccess.Services.AuthorizationCode;
+using Authorization.FakeIdentityAndAccess.Services.TokenGenerators;
 using Common.TokenUtils;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;

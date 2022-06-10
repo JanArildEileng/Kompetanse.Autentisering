@@ -1,9 +1,9 @@
-using Autentisering.FakeIdentityAndAccess.AppServices.Contracts;
-using Autentisering.FakeIdentityAndAccess.Services.AuthorizationCode;
-using Autentisering.Shared.Dto.IdentityAndAccess;
+using Authorization.FakeIdentityAndAccess.AppServices.Contracts;
+using Authorization.FakeIdentityAndAccess.Services.AuthorizationCode;
+using Authorization.Shared.Dto.IdentityAndAccess;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Autentisering.FakeIdentityAndAccess.Controllers
+namespace Authorization.FakeIdentityAndAccess.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -42,7 +42,7 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
         [HttpGet("/Userinfo", Name = "GetUserinfo")]
         public string GetUserinfo(string access_token)
         {
-            string userinfo = String.Empty;
+            string userinfo = string.Empty;
             return userinfo;
         }
 

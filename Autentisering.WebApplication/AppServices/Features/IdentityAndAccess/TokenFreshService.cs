@@ -1,7 +1,7 @@
-﻿using Autentisering.WebBFFApplication.AppServices.Contracts;
-using Autentisering.WebBFFApplication.AppServices.Services;
+﻿using Authorization.WebBFFApplication.AppServices.Contracts;
+using Authorization.WebBFFApplication.AppServices.Services;
 
-namespace Autentisering.WebBFFApplication.AppServices.Features.IdentityAndAccess
+namespace Authorization.WebBFFApplication.AppServices.Features.IdentityAndAccess
 {
     public class TokenFreshService
     {

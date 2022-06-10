@@ -1,10 +1,10 @@
-﻿using Autentisering.Shared.Dto.IdentityAndAccess;
+﻿using Authorization.Shared.Dto.IdentityAndAccess;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Autentisering.FakeIdentityAndAccess.Services.TokenGenerators;
+namespace Authorization.FakeIdentityAndAccess.Services.TokenGenerators;
 
 public class RefreshTokenGenerator
 {

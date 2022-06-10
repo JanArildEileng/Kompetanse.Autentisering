@@ -1,7 +1,7 @@
-using Autentisering.Shared.Dto.BackEnd;
+using Authorization.Shared.Dto.BackEnd;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Autentisering.BackendApi.Controllers
+namespace Authorization.BackendApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

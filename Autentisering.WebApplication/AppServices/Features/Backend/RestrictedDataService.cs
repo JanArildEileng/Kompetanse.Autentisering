@@ -1,8 +1,8 @@
-﻿using Autentisering.Shared.Dto.BackEnd;
-using Autentisering.WebBFFApplication.AppServices.Contracts;
-using Autentisering.WebBFFApplication.AppServices.Services;
+﻿using Authorization.Shared.Dto.BackEnd;
+using Authorization.WebBFFApplication.AppServices.Contracts;
+using Authorization.WebBFFApplication.AppServices.Services;
 
-namespace Autentisering.WebBFFApplication.AppServices.Features.Backend
+namespace Authorization.WebBFFApplication.AppServices.Features.Backend
 {
     public class RestrictedDataService
     {

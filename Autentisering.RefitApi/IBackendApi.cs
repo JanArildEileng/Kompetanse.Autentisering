@@ -1,6 +1,6 @@
 ﻿using Refit;
 
-namespace Autentisering.RefitApi;
+namespace Authorization.RefitApi;
 
 public interface IBackendApi
 {

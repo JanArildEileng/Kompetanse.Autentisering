@@ -1,5 +1,4 @@
-﻿
-namespace Autentisering.Shared.Dto.BackEnd;
+﻿namespace Authorization.Shared.Dto.BackEnd;
 
 public class RestrictedData
 {

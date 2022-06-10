@@ -1,12 +1,12 @@
-using Autentisering.FakeIdentityAndAccess.Infrastructure;
-using Autentisering.FakeIdentityAndAccess.Services.AuthorizationCode;
-using Autentisering.FakeIdentityAndAccess.Services.TokenGenerators;
-using Autentisering.Shared.Dto.IdentityAndAccess;
+using Authorization.FakeIdentityAndAccess.Infrastructure;
+using Authorization.FakeIdentityAndAccess.Services.AuthorizationCode;
+using Authorization.FakeIdentityAndAccess.Services.TokenGenerators;
+using Authorization.Shared.Dto.IdentityAndAccess;
 using Common.TokenUtils;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace Autentisering.FakeIdentityAndAccess.Controllers
+namespace Authorization.FakeIdentityAndAccess.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -26,9 +26,9 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
         [HttpGet("", Name = "GetToken")]
         public GetTokenResponse GetToken(string authorizationCode, [FromServices] AccessTokenGenerator accessTokenGenerator, [FromServices] IdTokenGenerator idTokenGenerator, [FromServices] RefreshTokenGenerator refreshTokenGenerator)
         {
-            GetTokenResponse getTokenResponse = new(); 
+            GetTokenResponse getTokenResponse = new();
 
-            string accessToken = String.Empty;
+            string accessToken = string.Empty;
 
             if (authorizationCodeCache.TryGet(authorizationCode, out AuthorizationCodeContent authorizationCodeContent))
             {
@@ -36,10 +36,10 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
                 //Generer AccessToken..
                 User user = authorizationCodeContent.User;
 
-                 getTokenResponse.AccessToken = accessTokenGenerator.GetAccessToken(user);
+                getTokenResponse.AccessToken = accessTokenGenerator.GetAccessToken(user);
 
                 //Generer IdToken..
-                 getTokenResponse.IdToken = idTokenGenerator.GetIdToken(user);
+                getTokenResponse.IdToken = idTokenGenerator.GetIdToken(user);
                 //Generer FreshToken
                 getTokenResponse.RefreshToken = refreshTokenGenerator.GetFreshToken(user);
 
@@ -56,17 +56,17 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
 
 
         [HttpGet("Refresh", Name = "GetRefreshedTokens")]
-        public  ActionResult<GetTokenResponse> GetRefreshedTokens(string refreshToken ,[FromServices] AccessTokenGenerator accessTokenGenerator, [FromServices] RefreshTokenGenerator refreshTokenGenerator, [FromServices] TokenValidetorService tokenValidetorService, [FromServices] UserRepoitory userRepoitory)
+        public ActionResult<GetTokenResponse> GetRefreshedTokens(string refreshToken, [FromServices] AccessTokenGenerator accessTokenGenerator, [FromServices] RefreshTokenGenerator refreshTokenGenerator, [FromServices] TokenValidetorService tokenValidetorService, [FromServices] UserRepoitory userRepoitory)
         {
             GetTokenResponse getTokenResponse = new();
 
-            string accessToken = String.Empty;
+            string accessToken = string.Empty;
 
             JwtSecurityToken jwtSecurityToken = tokenValidetorService.ReadValidateIdToken(refreshToken);
 
             if (jwtSecurityToken == null)
             {
-                  return BadRequest($"invalid refreshToken");
+                return BadRequest($"invalid refreshToken");
             }
 
             var claims = jwtSecurityToken.Claims.ToList();
@@ -75,7 +75,7 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
 
             User user = userRepoitory.GetUser(Guid.Parse(jti));
 
-            if (user!=null)
+            if (user != null)
             {
                 //ok...sjekk på client_id?
                 //Generer AccessToken..
@@ -87,7 +87,7 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
             else
             {
                 return BadRequest($"user not found");
-  
+
             }
 
             return Ok(getTokenResponse);

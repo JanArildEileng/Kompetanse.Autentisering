@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Autentisering.Shared.Dto.IdentityAndAccess
+namespace Authorization.Shared.Dto.IdentityAndAccess
 {
     public class GetTokenResponse
     {

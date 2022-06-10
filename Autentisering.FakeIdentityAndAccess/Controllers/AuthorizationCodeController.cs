@@ -1,8 +1,8 @@
-using Autentisering.FakeIdentityAndAccess.AppServices.Contracts;
-using Autentisering.FakeIdentityAndAccess.Services.AuthorizationCode;
+using Authorization.FakeIdentityAndAccess.AppServices.Contracts;
+using Authorization.FakeIdentityAndAccess.Services.AuthorizationCode;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Autentisering.FakeIdentityAndAccess.Controllers
+namespace Authorization.FakeIdentityAndAccess.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -20,14 +20,14 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
 
         //return authorization_code
         [HttpGet("", Name = "GetAuthorizationCode")]
-        public string GetAuthorizationCode([FromServices] IUserRepoitory userRepoitory,  string client_id="1234", string userName="test", string password="test")
+        public string GetAuthorizationCode([FromServices] IUserRepoitory userRepoitory, string client_id = "1234", string userName = "test", string password = "test")
         {
-            string authorizationCode = String.Empty;
+            string authorizationCode = string.Empty;
 
             //sjekk user/pass, return valid authorization_code if ok
             var user = userRepoitory.GetUser(userName);
 
-            if (user!=null)
+            if (user != null)
             {
                 authorizationCode = Guid.NewGuid().ToString();
                 //må lagre denn i MemoryCach
@@ -35,7 +35,7 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
                 {
                     AuthorizationCode = authorizationCode,
                     Client_id = client_id,
-                    User= user
+                    User = user
                 };
 
                 authorizationCodeCache.Set(authorizationCode, authorizationCodeContent);

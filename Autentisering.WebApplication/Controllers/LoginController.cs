@@ -1,11 +1,11 @@
-using Autentisering.WebBFFApplication.AppServices.Features.IdentityAndAccess;
+using Authorization.WebBFFApplication.AppServices.Features.IdentityAndAccess;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace Autentisering.WebBFFApplication.Controllers;
+namespace Authorization.WebBFFApplication.Controllers;
 
 [ApiController]
 [Route("[controller]")]

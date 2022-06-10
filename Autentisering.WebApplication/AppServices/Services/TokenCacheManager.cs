@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 
-namespace Autentisering.WebBFFApplication.AppServices.Services
+namespace Authorization.WebBFFApplication.AppServices.Services
 {
     public class TokenCacheManager
     {

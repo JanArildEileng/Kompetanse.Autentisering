@@ -1,12 +1,12 @@
-﻿using Autentisering.WebBFFApplication.AppServices.Contracts;
-using Autentisering.WebBFFApplication.AppServices.Services;
+﻿using Authorization.WebBFFApplication.AppServices.Contracts;
+using Authorization.WebBFFApplication.AppServices.Services;
 using Common.TokenUtils;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace Autentisering.WebBFFApplication.AppServices.Features.IdentityAndAccess
+namespace Authorization.WebBFFApplication.AppServices.Features.IdentityAndAccess
 {
     public class LoginService
     {

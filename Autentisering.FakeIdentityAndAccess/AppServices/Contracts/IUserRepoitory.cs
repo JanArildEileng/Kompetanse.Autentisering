@@ -1,6 +1,6 @@
-﻿using Autentisering.Shared.Dto.IdentityAndAccess;
+﻿using Authorization.Shared.Dto.IdentityAndAccess;
 
-namespace Autentisering.FakeIdentityAndAccess.AppServices.Contracts
+namespace Authorization.FakeIdentityAndAccess.AppServices.Contracts
 {
     public interface IUserRepoitory
     {
