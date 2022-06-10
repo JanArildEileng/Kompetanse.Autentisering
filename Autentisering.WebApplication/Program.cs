@@ -5,6 +5,7 @@ using Autentisering.WebBFFApplication.AppServices.Features.Backend;
 using Autentisering.WebBFFApplication.AppServices.Features.IdentityAndAccess;
 using Autentisering.WebBFFApplication.Infrastructure;
 using Autentisering.WebBFFApplication.Services;
+using Common.TokenUtils;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
 using Refit;

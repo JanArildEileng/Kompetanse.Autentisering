@@ -1,5 +1,6 @@
 ﻿using Autentisering.WebBFFApplication.AppServices.Contracts;
 using Autentisering.WebBFFApplication.Services;
+using Common.TokenUtils;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.IdentityModel.Tokens.Jwt;

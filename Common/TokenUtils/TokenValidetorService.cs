@@ -2,7 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace Autentisering.WebBFFApplication.Services;
+namespace Common.TokenUtils;
 
 public class TokenValidetorService
 {
