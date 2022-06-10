@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 
-namespace Autentisering.WebBFFApplication.Services
+namespace Autentisering.WebBFFApplication.AppServices.Services
 {
     public class TokenCacheManager
     {
@@ -40,7 +40,7 @@ namespace Autentisering.WebBFFApplication.Services
             string refreshToken;
             memoryCache.TryGetValue(AccessKey, out accessToken);
             memoryCache.TryGetValue(RefreshKey, out refreshToken);
-       
+
             return (accessToken, refreshToken);
         }
 

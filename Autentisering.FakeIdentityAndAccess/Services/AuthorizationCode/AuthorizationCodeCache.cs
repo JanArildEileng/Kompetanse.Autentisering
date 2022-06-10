@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 
-namespace Autentisering.FakeIdentityAndAccess;
+namespace Autentisering.FakeIdentityAndAccess.Services.AuthorizationCode;
 
 public class AuthorizationCodeCache
 {
@@ -16,7 +16,7 @@ public class AuthorizationCodeCache
 
     public void Set(string authorizationCode, AuthorizationCodeContent authorizationCodeContent)
     {
-        memoryCache.Set(authorizationCode, authorizationCodeContent, this.cacheEntryOptions);
+        memoryCache.Set(authorizationCode, authorizationCodeContent, cacheEntryOptions);
     }
 
     public bool TryGet(string authorizationCode, out AuthorizationCodeContent authorizationCodeContent)

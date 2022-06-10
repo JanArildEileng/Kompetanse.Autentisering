@@ -1,6 +1,6 @@
 ﻿using Autentisering.Shared.Dto.IdentityAndAccess;
 
-namespace Autentisering.FakeIdentityAndAccess
+namespace Autentisering.FakeIdentityAndAccess.Services.AuthorizationCode
 {
     public class AuthorizationCodeContent
     {

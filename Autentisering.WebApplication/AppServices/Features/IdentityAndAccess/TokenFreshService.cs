@@ -1,5 +1,5 @@
 ﻿using Autentisering.WebBFFApplication.AppServices.Contracts;
-using Autentisering.WebBFFApplication.Services;
+using Autentisering.WebBFFApplication.AppServices.Services;
 
 namespace Autentisering.WebBFFApplication.AppServices.Features.IdentityAndAccess
 {
