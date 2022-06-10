@@ -6,7 +6,9 @@ using Autentisering.WebBFFApplication.AppServices.Features.IdentityAndAccess;
 using Autentisering.WebBFFApplication.Infrastructure;
 using Autentisering.WebBFFApplication.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.IdentityModel.Tokens;
 using Refit;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +24,26 @@ builder.Services.AddMemoryCache();
 builder.Services.AddScoped<IIdentityAndAccessApiService, IdentityAndAccessApiService>();
 builder.Services.AddScoped<IBackendApiService, BackendApiService>();
 
-builder.Services.AddSingleton<TokenValidetorService>();
+//builder.Services.AddSingleton<TokenValidetorService>(new );
+
+builder.Services.AddSingleton<TokenValidetorService>(x => {
+
+      var _config = x.GetRequiredService<IConfiguration>();
+      TokenValidationParameters tokenValidationParameters = new TokenValidationParameters
+      {
+         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["IdJwtToken:SecretKey"])),
+         RequireExpirationTime = true,
+         ValidateLifetime = true,
+         ValidateAudience = true,
+         ValidateIssuer = true,
+         ValidIssuer = _config["IdJwtToken:Issuer"],
+         ValidAudience = _config["IdJwtToken:Audience"]
+     };
+     return ActivatorUtilities.CreateInstance<TokenValidetorService>(x, tokenValidationParameters);
+    });
+
+
+
 builder.Services.AddSingleton<TokenCacheManager>();
 builder.Services.AddScoped<TokenFreshService>();
 builder.Services.AddScoped<LoginService>();
