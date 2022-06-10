@@ -1,8 +1,7 @@
 using Autentisering.FakeIdentityAndAccess.TokenGenerators;
-using Autentisering.FakeIdentityAndAccess.TokenValidators;
 using Autentisering.Shared.Dto.IdentityAndAccess;
+using Common.TokenUtils;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace Autentisering.FakeIdentityAndAccess.Controllers
@@ -55,13 +54,13 @@ namespace Autentisering.FakeIdentityAndAccess.Controllers
 
 
         [HttpGet("Refresh", Name = "GetRefreshedTokens")]
-        public  ActionResult<GetTokenResponse> GetRefreshedTokens(string refreshToken ,[FromServices] AccessTokenGenerator accessTokenGenerator, [FromServices] RefreshTokenGenerator refreshTokenGenerator, [FromServices] RefreshTokenValidetor refreshTokenValidetor, [FromServices] UserRepoitory userRepoitory)
+        public  ActionResult<GetTokenResponse> GetRefreshedTokens(string refreshToken ,[FromServices] AccessTokenGenerator accessTokenGenerator, [FromServices] RefreshTokenGenerator refreshTokenGenerator, [FromServices] TokenValidetorService tokenValidetorService, [FromServices] UserRepoitory userRepoitory)
         {
             GetTokenResponse getTokenResponse = new();
 
             string accessToken = String.Empty;
 
-            JwtSecurityToken jwtSecurityToken = refreshTokenValidetor.ReadValidateIdToken(refreshToken);
+            JwtSecurityToken jwtSecurityToken = tokenValidetorService.ReadValidateIdToken(refreshToken);
 
             if (jwtSecurityToken == null)
             {

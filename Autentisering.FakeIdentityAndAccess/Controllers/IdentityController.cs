@@ -1,5 +1,4 @@
 using Autentisering.FakeIdentityAndAccess.TokenGenerators;
-using Autentisering.FakeIdentityAndAccess.TokenValidators;
 using Autentisering.Shared.Dto.IdentityAndAccess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;

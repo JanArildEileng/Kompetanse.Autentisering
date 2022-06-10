@@ -1,6 +1,8 @@
 using Autentisering.FakeIdentityAndAccess;
 using Autentisering.FakeIdentityAndAccess.TokenGenerators;
-using Autentisering.FakeIdentityAndAccess.TokenValidators;
+using Common.TokenUtils;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +18,25 @@ builder.Services.AddSingleton<AuthorizationCodeCache>();
 builder.Services.AddSingleton<IdTokenGenerator>();
 builder.Services.AddSingleton<AccessTokenGenerator>();
 builder.Services.AddSingleton<RefreshTokenGenerator>();
-builder.Services.AddSingleton<RefreshTokenValidetor>();
+
+
+
+builder.Services.AddSingleton<TokenValidetorService>(x => {
+
+    var _config = x.GetRequiredService<IConfiguration>();
+    TokenValidationParameters tokenValidationParameters = new TokenValidationParameters
+    {
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["RefreshJwtToken:SecretKey"])),
+        RequireExpirationTime = true,
+        ValidateLifetime = true,
+        ValidateAudience = true,
+        ValidateIssuer = true,
+        ValidIssuer = _config["RefreshJwtToken:Issuer"],
+        ValidAudience = _config["RefreshJwtToken:Audience"]
+    };
+    return ActivatorUtilities.CreateInstance<TokenValidetorService>(x, tokenValidationParameters);
+});
+
 
 
 
