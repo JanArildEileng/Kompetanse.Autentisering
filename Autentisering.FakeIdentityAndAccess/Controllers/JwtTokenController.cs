@@ -1,3 +1,4 @@
+using Authorization.FakeIdentityAndAccess.AppServices.Contracts;
 using Authorization.FakeIdentityAndAccess.Infrastructure;
 using Authorization.FakeIdentityAndAccess.Services.AuthorizationCode;
 using Authorization.FakeIdentityAndAccess.Services.TokenGenerators;
@@ -56,7 +57,7 @@ namespace Authorization.FakeIdentityAndAccess.Controllers
 
 
         [HttpGet("Refresh", Name = "GetRefreshedTokens")]
-        public ActionResult<GetTokenResponse> GetRefreshedTokens(string refreshToken, [FromServices] AccessTokenGenerator accessTokenGenerator, [FromServices] RefreshTokenGenerator refreshTokenGenerator, [FromServices] TokenValidetorService tokenValidetorService, [FromServices] UserRepoitory userRepoitory)
+        public ActionResult<GetTokenResponse> GetRefreshedTokens(string refreshToken, [FromServices] AccessTokenGenerator accessTokenGenerator, [FromServices] RefreshTokenGenerator refreshTokenGenerator, [FromServices] TokenValidetorService tokenValidetorService, [FromServices] IUserRepoitory userRepoitory)
         {
             GetTokenResponse getTokenResponse = new();
 
