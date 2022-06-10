@@ -1,20 +1,15 @@
-﻿using Autentisering.WebBFFApplication.AppServices.Contracts;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 
 namespace Autentisering.WebBFFApplication.Services
 {
     public class TokenCacheManager
     {
-        const string TokenKey = "AccessToken";
         private readonly ILogger<TokenCacheManager> logger;
         private readonly IMemoryCache memoryCache;
-        private readonly IIdentityAndAccessApiService identityService;
         MemoryCacheEntryOptions memoryCacheEntryOptions;
 
-
-        private string Key(string username) => $"{TokenKey}:{username}";
-        private string RefreshKey(string username) => $"Refresh:{username}";
-
+        private string AccessKey(string username) => $"AccessToken:{username}";
+        private string RefreshKey(string username) => $"RefreshToken:{username}";
 
         public TokenCacheManager(ILogger<TokenCacheManager> logger, IMemoryCache memoryCache)
         {
@@ -22,16 +17,14 @@ namespace Autentisering.WebBFFApplication.Services
             this.memoryCache = memoryCache;
             memoryCacheEntryOptions = new MemoryCacheEntryOptions()
                 .SetAbsoluteExpiration(DateTime.Now.AddMinutes(5));
-
         }
 
         public void SetToken(string username, string accessToken, string refreshToken)
         {
-
             if (accessToken != null)
             {
                 logger.LogInformation("Add token to memoryCache");
-                memoryCache.Set(Key, accessToken, memoryCacheEntryOptions);
+                memoryCache.Set(AccessKey, accessToken, memoryCacheEntryOptions);
             }
 
             if (refreshToken != null)
@@ -39,22 +32,15 @@ namespace Autentisering.WebBFFApplication.Services
                 logger.LogInformation("Add refreshToken to memoryCache");
                 memoryCache.Set(RefreshKey, refreshToken, memoryCacheEntryOptions);
             }
-
-
         }
 
         public async Task<(string, string)> GetToken(string username)
         {
             string accessToken;
             string refreshToken;
-            if (memoryCache.TryGetValue(Key, out accessToken))
-            {
-            }
-            if (memoryCache.TryGetValue(RefreshKey, out refreshToken))
-            {
-            }
-
-
+            memoryCache.TryGetValue(AccessKey, out accessToken);
+            memoryCache.TryGetValue(RefreshKey, out refreshToken);
+       
             return (accessToken, refreshToken);
         }
 
