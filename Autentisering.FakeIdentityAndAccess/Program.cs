@@ -21,6 +21,8 @@ builder.Services.AddSingleton<IdTokenGenerator>();
 builder.Services.AddSingleton<AccessTokenGenerator>();
 builder.Services.AddSingleton<RefreshTokenGenerator>();
 
+builder.Services.AddRazorPages();
+
 builder.Services.AddSingleton<TokenValidetorService>(x => {
 
     var _config = x.GetRequiredService<IConfiguration>();
@@ -53,5 +55,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapRazorPages();
 
 app.Run();
