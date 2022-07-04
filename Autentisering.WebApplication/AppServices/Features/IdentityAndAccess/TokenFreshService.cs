@@ -5,11 +5,13 @@ namespace Authorization.WebBFFApplication.AppServices.Features.IdentityAndAccess
 {
     public class TokenFreshService
     {
+        private readonly ILogger<TokenFreshService> logger;
         private readonly TokenCacheManager tokenCacheManager;
         private readonly IIdentityAndAccessApiService identityService;
 
-        public TokenFreshService(TokenCacheManager tokenCacheManager, IIdentityAndAccessApiService identityService)
+        public TokenFreshService(ILogger<TokenFreshService> logger,TokenCacheManager tokenCacheManager, IIdentityAndAccessApiService identityService)
         {
+            this.logger = logger;
             this.tokenCacheManager = tokenCacheManager;
             this.identityService = identityService;
         }
@@ -40,5 +42,22 @@ namespace Authorization.WebBFFApplication.AppServices.Features.IdentityAndAccess
             return (true, $" {name} successful Refresh Expire={getTokenResponse.Expire} ");
         }
 
+        public async Task<(bool success, string messsage)> RefreshToken()
+        {
+
+            List<string> userNames= await tokenCacheManager.GetAllUserNames();
+
+
+
+            foreach (var userName in userNames)
+            {
+                (bool success,string message)= await RefreshToken(userName);
+                logger.LogInformation("RefreshToken {message}", message);
+            }
+
+            return (true, "");
+
+          
+        }
     }
 }

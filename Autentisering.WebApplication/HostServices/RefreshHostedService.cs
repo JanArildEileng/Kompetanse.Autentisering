@@ -38,7 +38,7 @@ namespace Authorization.WebBFFApplication.HostServices
 
         async Task<Boolean> DoWorkScopedWork(TokenFreshService tokenFreshService)
         {
-             (bool success,string messsage)=   await tokenFreshService.RefreshToken("Jan");
+             (bool success,string messsage)=   await tokenFreshService.RefreshToken();
             logger.LogInformation("RefreshToken completed {success} : {messsage}", success, messsage);
             return success;
         }

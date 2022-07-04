@@ -6,12 +6,12 @@ namespace Authorization.WebBFFApplication.AppServices.Services
     {
         private readonly ILogger<TokenCacheManager> logger;
         private readonly IMemoryCache memoryCache;
- 
+        private readonly HashSet<string> userNames=new HashSet<string>();
+
         public TokenCacheManager(ILogger<TokenCacheManager> logger, IMemoryCache memoryCache)
         {
             this.logger = logger;
             this.memoryCache = memoryCache;
-         
         }
 
         public void SetToken(string username, string accessToken, string refreshToken)
@@ -19,18 +19,18 @@ namespace Authorization.WebBFFApplication.AppServices.Services
             string AccessKey = $"AccessToken:{username}";
             string RefreshKey = $"RefreshToken:{username}";
 
-            logger.LogInformation("Set Token for {username}  AccessKey={AccessKey}  RefreshKey={RefreshKey}", username, AccessKey, RefreshKey);
-
+            logger.LogDebug("Set Token for {username}  AccessKey={AccessKey}  RefreshKey={RefreshKey}", username, AccessKey, RefreshKey);
 
             if (accessToken != null)
             {
-                logger.LogInformation("Add token to memoryCache");
+                logger.LogDebug("Add token to memoryCache");
                 memoryCache.Set(AccessKey, accessToken, TimeSpan.FromMinutes(5));
             }
 
             if (refreshToken != null)
             {
-                logger.LogInformation("Add refreshToken to memoryCache");
+                userNames.Add(username);
+                logger.LogDebug("Add refreshToken to memoryCache");
                 memoryCache.Set(RefreshKey, refreshToken, TimeSpan.FromMinutes(5));
             }
         }
@@ -40,19 +40,24 @@ namespace Authorization.WebBFFApplication.AppServices.Services
             string AccessKey = $"AccessToken:{username}";
             string RefreshKey= $"RefreshToken:{username}";
 
-
             string accessToken;
             string refreshToken;
 
-
-            logger.LogInformation("Get Token for {username}  AccessKey={AccessKey}  RefreshKey={RefreshKey}", username, AccessKey, RefreshKey);
-
+            logger.LogDebug("Get Token for {username}  AccessKey={AccessKey}  RefreshKey={RefreshKey}", username, AccessKey, RefreshKey);
 
             memoryCache.TryGetValue(AccessKey, out accessToken);
             memoryCache.TryGetValue(RefreshKey, out refreshToken);
 
             return (accessToken, refreshToken);
         }
+
+
+        public async Task<List<string>> GetAllUserNames()
+        {
+            return userNames.ToList(); ;
+        }
+
+
 
 
     }
