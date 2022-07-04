@@ -1,4 +1,5 @@
 using Authorization.WebBFFApplication.AppServices.Features.IdentityAndAccess;
+using Authorization.WebBFFApplication.AppServices.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -42,9 +43,11 @@ public class LoginController : ControllerBase
 
     [Authorize]
     [HttpPost("Logout", Name = "Logout")]
-    public async Task<ActionResult> Logout()
+    public async Task<ActionResult> Logout([FromServices] TokenCacheManager tokenCacheManager)
     {
         var name = GetIdentityName();
+        tokenCacheManager.RemoveToken(name);
+
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return Ok($"{name} successful Logout");
     }

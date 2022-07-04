@@ -52,6 +52,27 @@ namespace Authorization.WebBFFApplication.AppServices.Services
         }
 
 
+
+        public void RemoveToken(string username)
+        {
+            string AccessKey = $"AccessToken:{username}";
+            string RefreshKey = $"RefreshToken:{username}";
+
+            string accessToken;
+            string refreshToken;
+
+            logger.LogDebug("Remove Token for {username}  AccessKey={AccessKey}  RefreshKey={RefreshKey}", username, AccessKey, RefreshKey);
+
+            memoryCache.Remove(AccessKey);
+            memoryCache.Remove(RefreshKey);
+
+            userNames.Remove(username);
+
+            return;
+        }
+
+
+
         public async Task<List<string>> GetAllUserNames()
         {
             return userNames.ToList(); ;
