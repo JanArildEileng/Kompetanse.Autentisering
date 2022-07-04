@@ -4,6 +4,7 @@ using Authorization.WebBFFApplication.AppServices.Contracts;
 using Authorization.WebBFFApplication.AppServices.Features.Backend;
 using Authorization.WebBFFApplication.AppServices.Features.IdentityAndAccess;
 using Authorization.WebBFFApplication.AppServices.Services;
+using Authorization.WebBFFApplication.HostServices;
 using Authorization.WebBFFApplication.Infrastructure;
 using Common.TokenUtils;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -51,7 +52,7 @@ builder.Services.AddScoped<LoginService>();
 builder.Services.AddScoped<RestrictedDataService>();
 
 
-
+builder.Services.AddHostedService<RefreshHostedService>();
 
 
 
@@ -101,5 +102,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.Run();
+
