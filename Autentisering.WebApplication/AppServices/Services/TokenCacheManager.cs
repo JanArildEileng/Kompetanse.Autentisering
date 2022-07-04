@@ -6,8 +6,7 @@ namespace Authorization.WebBFFApplication.AppServices.Services
     {
         private readonly ILogger<TokenCacheManager> logger;
         private readonly IMemoryCache memoryCache;
-        MemoryCacheEntryOptions memoryCacheEntryOptions;
-
+  
         private string AccessKey(string username) => $"AccessToken:{username}";
         private string RefreshKey(string username) => $"RefreshToken:{username}";
 
@@ -15,8 +14,7 @@ namespace Authorization.WebBFFApplication.AppServices.Services
         {
             this.logger = logger;
             this.memoryCache = memoryCache;
-            memoryCacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(DateTime.Now.AddMinutes(5));
+         
         }
 
         public void SetToken(string username, string accessToken, string refreshToken)
@@ -24,13 +22,13 @@ namespace Authorization.WebBFFApplication.AppServices.Services
             if (accessToken != null)
             {
                 logger.LogInformation("Add token to memoryCache");
-                memoryCache.Set(AccessKey, accessToken, memoryCacheEntryOptions);
+                memoryCache.Set(AccessKey, accessToken, TimeSpan.FromMinutes(5));
             }
 
             if (refreshToken != null)
             {
                 logger.LogInformation("Add refreshToken to memoryCache");
-                memoryCache.Set(RefreshKey, refreshToken, memoryCacheEntryOptions);
+                memoryCache.Set(RefreshKey, refreshToken, TimeSpan.FromMinutes(5));
             }
         }
 
