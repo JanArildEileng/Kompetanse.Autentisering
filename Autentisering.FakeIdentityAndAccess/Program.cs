@@ -31,6 +31,7 @@ builder.Services.AddSingleton<TokenValidetorService>(x => {
         ValidateLifetime = true,
         ValidateAudience = true,
         ValidateIssuer = true,
+        ClockSkew = TimeSpan.Zero, 
         ValidIssuer = _config["RefreshJwtToken:Issuer"],
         ValidAudience = _config["RefreshJwtToken:Audience"]
     };
