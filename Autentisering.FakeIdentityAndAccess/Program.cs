@@ -40,6 +40,7 @@ builder.Services.AddSingleton<TokenValidetorService>(x => {
 });
 
 builder.Services.AddSingleton<IUserRepoitory,UserRepoitory>();
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

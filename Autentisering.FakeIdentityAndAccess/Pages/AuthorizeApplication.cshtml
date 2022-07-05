@@ -1,6 +1,12 @@
 ﻿@page
+@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject IHttpClientFactory ClientFactory
 @model Authorization.FakeIdentityAndAccess.Pages.AuthorizeApplicationModel
 @{
+   
 }
 
-hello world
+ <form asp-page-handler="OK" method="post">
+        <button class="btn btn-default">OK</button>
+        
+    </form>
