@@ -28,7 +28,7 @@ namespace Authorization.WebBFFApplication.Pages
 
             //var response = await client.SendAsync(request);
 
-            return Redirect("https://localhost:7134/oauth/authorize?response_type=code&client_id=45663491-1F66-4447-B6E4-B7B966BA3A89&scope=photo");
+            return Redirect("https://localhost:7134/oauth/authorize?response_type=code&client_id=45663491-1F66-4447-B6E4-B7B966BA3A89&scope=photo&redirect_url=http://localhost:7072/");
 
 
         }
