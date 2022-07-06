@@ -21,6 +21,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMemoryCache();
 
+builder.Services.AddRazorPages();
+
 
 builder.Services.AddScoped<IIdentityAndAccessApiService, IdentityAndAccessApiService>();
 builder.Services.AddScoped<IBackendApiService, BackendApiService>();
@@ -69,6 +71,8 @@ builder.Services.AddRefitClient<IIdentityAndAccessApi>()
         }
     );
 
+builder.Services.AddHttpClient();
+
 
 
 builder.Services.AddAuthentication(option=> 
@@ -101,5 +105,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapRazorPages();
+
+
 
 app.Run();
