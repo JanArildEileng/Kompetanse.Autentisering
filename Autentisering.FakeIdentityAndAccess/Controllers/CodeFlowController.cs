@@ -5,7 +5,7 @@ namespace Authorization.FakeIdentityAndAccess.Controllers
 {
     
     [ApiController]
-    public class ControlFlowController : ControllerBase
+    public class CodeFlowController : ControllerBase
     {
         [Route("oauth/authorize")]   
         [HttpGet]

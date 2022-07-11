@@ -9,11 +9,11 @@ namespace Authorization.WebBFFApplication.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ControlFlowController : ControllerBase
+public class CodeFlowController : ControllerBase
 {
     private readonly ILogger<LoginController> _logger;
 
-    public ControlFlowController(ILogger<LoginController> logger)
+    public CodeFlowController(ILogger<LoginController> logger)
     {
         _logger = logger;
     }
