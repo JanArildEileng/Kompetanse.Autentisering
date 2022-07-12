@@ -18,4 +18,11 @@ public interface IIdentityAndAccessApi
 
     [Get("/Userinfo")]
     Task<HttpResponseMessage> GetUserinfo(string AccessToken);
+
+    [Get("/oauth/token")]
+    Task<HttpResponseMessage> GetTokenCodeFlow(string grant_type = "authorization_code",
+                                        string code = "B6E4-B7B966BA3A89",
+                                        string redirect_uri = "",
+                                        string client_id = "45663491-1F66-4447-B6E4-B7B966BA3A89",
+                                        string client_secret = "secret_123");
 }

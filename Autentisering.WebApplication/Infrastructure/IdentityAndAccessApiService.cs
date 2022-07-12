@@ -138,6 +138,39 @@ public class IdentityAndAccessApiService : IIdentityAndAccessApiService
         return getTokenResponse;
     }
 
+    public async Task<GetTokenResponse> GetTokenCodeFlow(string grant_type = "authorization_code",
+                                                         string code = "B6E4-B7B966BA3A89",
+                                                         string redirect_uri = "",
+                                                         string client_id = "45663491-1F66-4447-B6E4-B7B966BA3A89",
+                                                         string client_secret = "secret_123")
+    {
+        GetTokenResponse getTokenResponse;
+        try
+        {
+            var response = await identityApi.GetTokenCodeFlow(code);
+            if (response.IsSuccessStatusCode)
+            {
+                getTokenResponse = JsonSerializer.Deserialize<GetTokenResponse>(await response.Content.ReadAsStringAsync(), options);
+            }
+            else
+            {
+                throw new Exception("Identity failed " + response.ReasonPhrase);
+            }
+        }
+        catch (ApiException apiException)
+        {
+            logger.LogError(" ApiException {Message} ", apiException.Message);
+            throw;
+        }
+        catch (Exception exp)
+        {
+            logger.LogError(" Exception {Message} ", exp.Message);
+            throw;
+        }
+
+        return getTokenResponse;
+    }
+
     public async Task<GetTokenResponse> GetRefreshedTokens(string refreshToken)
     {
         GetTokenResponse getTokenResponse;
