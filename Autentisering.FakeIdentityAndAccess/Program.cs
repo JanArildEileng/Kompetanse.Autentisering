@@ -23,6 +23,18 @@ builder.Services.AddSingleton<RefreshTokenGenerator>();
 
 builder.Services.AddRazorPages();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowOrigin",
+        builder =>
+        {
+            builder.WithOrigins("https://localhost:7134", "https://localhost:7072", "https://localhost:7170")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+        });
+});
+
+
 builder.Services.AddSingleton<TokenValidetorService>(x => {
 
     var _config = x.GetRequiredService<IConfiguration>();
@@ -51,8 +63,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
 
+
+app.UseCors(builder => builder
+               .AllowAnyOrigin()
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+           );
+
+app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
